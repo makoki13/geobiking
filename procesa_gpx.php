@@ -38,6 +38,8 @@ $gpx = simplexml_load_file($fichero);
 
 $lista_poblaciones = array();
 
+echo "empezamos....\n";
+
 foreach ($gpx->trk as $trk) {    
     foreach ($trk->trkseg as $trkseg) {
         $i = 0;
