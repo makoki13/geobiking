@@ -55,7 +55,7 @@ foreach ($gpx->trk as $trk) {
             $lista_poblaciones[$poblacion] = true;
 
             if ($i>=10) {
-                exit();
+                break;
             }
         }
     }
