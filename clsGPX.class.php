@@ -34,11 +34,9 @@ class GPX {
                         echo "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
                     }
                     
-                    if (existe_localidad($conexion,$id)) {
-                        echo "existe $poblacion [$id] de la provincia $provincia\n";
-                    }
-                    else {
+                    if (existe_localidad($conexion,$id) === false) {
                         $resp = inserta_localidad($conexion,$id, $poblacion, '', $provincia);                    
+                        echo "***** nueva $poblacion [$id] de la provincia $provincia\n";
                     }
 
                     //if ($i>=10) {
