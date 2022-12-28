@@ -17,19 +17,23 @@ class GPX {
                     $lat = (float) $trkpt['lat'];
                     $lon = (float) $trkpt['lon'];
 
+                    $encontrado = true;
                     $datos = get_datos_puntos_guardados($conexion,$lat,$lon);
                     if ($datos===false) {                  
                         $datos = get_localidad($lat, $lon);
                         $id = $datos['id'];
                         $resp = inserta_punto($conexion,$id,$lat,$lon);
+                        $encontrado = false;
                     }
                     
                     $id = $datos['id'];
                     $poblacion = $datos['poblacion'];
                     $provincia = $datos['provincia'];
 
-                    echo "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
-
+                    if ($encontrado=== false) {
+                        echo "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
+                    }
+                    
                     if (existe_localidad($conexion,$id)) {
                         echo "existe $poblacion [$id] de la provincia $provincia\n";
                     }
