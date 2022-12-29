@@ -1,62 +1,17 @@
 <?php
+/*
+Host=rtexa3j8.instances.spawn.cc;Port=32068;Username=spawn_admin_cBuT;Database=foobardb;Password=J0XccA3aXpL8T9qz
+
+truncate puntos; truncate usuarios_registro; truncate logros;
+*/
 
 include_once 'basededatos.php';
 
-function get_localidad($lat, $lon) {
-    $json = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=".$lat."&lon=".$lon."&zoom=10";
-    $opts = [
-        'http' => [
-          'method'=>"GET",
-          'header'=>"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) \r\n"
-        ]
-    ];
-    $context = stream_context_create($opts);
-    $jsonfile = file_get_contents($json, false, $context);
-        
-    $RG_array = json_decode($jsonfile,true);
-    
-    if (isset($RG_array['place_id'])) {
-        $place_id = $RG_array['place_id'];
-    }
-    
-    $poblacion_1 = '';
-    if (isset($RG_array['address']['hamlet'])) {
-        $poblacion_1 = $RG_array['address']['hamlet'];
-    }
-    
-    $poblacion_2 = '';
-    if (isset($RG_array['address']['village'])) {
-        $poblacion_2 = $RG_array['address']['village'];
-    }
-
-    $poblacion = $poblacion_1;
-    if (trim($poblacion_1)=='') {
-        $poblacion = $poblacion_2;
-    }
-
-    if (isset($RG_array['address']['ISO3166-2-lvl6'])) {
-        $provincia = $RG_array['address']['ISO3166-2-lvl6'];
-    }
-
-    return array("id" => $place_id, "poblacion" => $poblacion, "provincia" => $provincia);
-}
-
-function existe_localidad($conexion,$id) {
-    $sql="select count(*) from localidades where id=$id";    
-    $valor = db_get_dato($conexion,$sql);
-    return ($valor > 0);
-}
 
 function get_id_provincia_por_idgeo($conexion,$idgeo) {
     $sql="select id from provincias where id_geo=$$" . $idgeo . "$$";    
     $valor = db_get_dato($conexion,$sql);
     return $valor;
-}
-
-function inserta_localidad($conexion,$id, $nombre, $ine, $provincia) {
-    $id_provincia = get_id_provincia_por_idgeo($conexion,$provincia);
-    $sql="insert into localidades (id,nombre,ine,provincia) values ($id,$$" . trim($nombre) . "$$,$$" . trim($ine) . "$$,$id_provincia)";
-    return db_inserta($conexion,$sql);
 }
 
 function inserta_punto($conexion,$id_poblacion,$lat, $lon) {
@@ -80,4 +35,19 @@ function get_datos_puntos_guardados($conexion,$lat,$lon) {
     $provincia = get_campo($datos, 1);
 
     return array("id" => $id_poblacion, "poblacion" => $poblacion, "provincia" => $provincia);
+}
+
+function existe_en_usuarios_registro($conexion,$usuario,$localidad) {
+    $sql="select count(*) from usuarios_registro where usuario=$usuario and localidad=$localidad";    
+    $valor = db_get_dato($conexion,$sql);
+    return ($valor > 0);
+}
+
+function guarda_en_usuarios_registro($conexion,$usuario,$localidad) {
+    if (existe_en_usuarios_registro($conexion,$usuario,$localidad) == false) {
+        $sql="insert into usuarios_registro (usuario,localidad) values ($usuario,$localidad)";
+        return db_inserta($conexion,$sql);
+    }
+
+    return true;
 }

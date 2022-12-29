@@ -7,5 +7,6 @@ include_once 'clsGPX.class.php';
 $conexion = get_nueva_conexion();
 
 $fichero = "fichero.gpx";
+$usuario = 0;
 
-GPX::procesa($conexion,$fichero); 
+GPX::procesa($conexion,$fichero,$usuario); 

@@ -8,6 +8,7 @@ var_dump($conexion);
 $lat = 38.915278; $lon = -0.204444; //ador
 $lat = 39.851901; $lon = -0.489554; // segorbe
 $lat = 38.715278; $lon = -0.05; // Tarbena
+$lat = 38.97567; $lon=-0.157035; //????
 
 $datos = get_datos_puntos_guardados($conexion,$lat,$lon);
 if ($datos===false) {

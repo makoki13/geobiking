@@ -21,6 +21,10 @@ function db_inserta($conexion,$sql) {
     return pg_query($conexion,$sql);
 }
 
+function db_actualiza($conexion,$sql) {
+    return db_inserta($conexion,$sql);
+}
+
 function db_get_registro($conexion,$sql) {
     $reg = @pg_query($conexion,$sql);
     if ($reg === false) return false;
