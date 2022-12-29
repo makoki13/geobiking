@@ -34,3 +34,10 @@ function db_get_registro($conexion,$sql) {
 function get_campo($reg, $indice) {
     return pg_result($reg,0,$indice);
 }
+
+function db_get_tabla($conexion,$sql,&$filas) {
+    $reg = @pg_query($conexion,$sql);    
+    if ($reg === false) return false;
+    $filas = @pg_num_rows($reg);
+    return $reg;    
+}
