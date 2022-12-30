@@ -32,6 +32,11 @@ class Localidad {
         if (isset($RG_array['address']['city'])) {
             $poblacion_3 = $RG_array['address']['city'];
         }
+
+        $poblacion_4 = '';
+        if (isset($RG_array['address']['town'])) {
+            $poblacion_3 = $RG_array['address']['town'];
+        }
     
         $poblacion = $poblacion_1;
         if (trim($poblacion)=='') {
@@ -39,6 +44,9 @@ class Localidad {
         }
         if (trim($poblacion)=='') {
             $poblacion = $poblacion_3;
+        }
+        if (trim($poblacion)=='') {
+            $poblacion = $poblacion_4;
         }
     
         if (isset($RG_array['address']['ISO3166-2-lvl6'])) {
