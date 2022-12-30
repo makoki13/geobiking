@@ -9,7 +9,8 @@ include_once 'basededatos.php';
 
 
 function get_id_provincia_por_idgeo($conexion,$idgeo) {
-    $sql="select id from provincias where id_geo=$$" . $idgeo . "$$";    
+    $sql="select id from provincias where id_geo=$$" . $idgeo . "$$"; 
+    echo $sql."\n";   
     $valor = db_get_dato($conexion,$sql);
     return $valor;
 }

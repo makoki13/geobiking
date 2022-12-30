@@ -13,25 +13,67 @@ class Estadisticas {
         return db_get_dato($conexion,$sql);
     }
 
-    public static function objetivo_una_localidad_visitada($conexion, $usuario) {
+    public static function get_provincias_visitadas($conexion,$usuario) {
+        $sql="select distinct provincia from localidades l inner join usuarios_registro ur on l.id = ur.localidad where ur.usuario=$usuario";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        return $filas;
+    }
+
+    public static function get_total_numero_provincias($conexion) {
+        $sql="select count(*) from provincias";
+        return db_get_dato($conexion,$sql);
+    }
+
+    public static function get_autonomias_visitadas($conexion,$usuario) {
+        $sql="
+            select distinct autonomia 
+            from provincias p inner join localidades l on l.provincia = p.id inner join usuarios_registro ur on l.id = ur.localidad 
+            where ur.usuario=$usuario
+        ";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        return $filas;
+    }
+
+    public static function get_total_numero_autonomias($conexion) {
+        $sql="select count(*) from autonomias";
+        return db_get_dato($conexion,$sql);
+    }
+
+    /* POR LOCALIDADES */
+
+    private static function objetivo_una_localidad_visitada($conexion, $usuario) {
         //echo "executing objetivo_una_localidad_visitada\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 1;
     }
 
-    public static function objetivo_dos_localidades_visitadas($conexion,$usuario) {
+    private static function objetivo_dos_localidades_visitadas($conexion,$usuario) {
         //echo "executing objetivo_dos_localidades_visitadas\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 2;
     }
 
-    public static function objetivo_cinco_localidades_visitadas($conexion,$usuario) {
+    private static function objetivo_cinco_localidades_visitadas($conexion,$usuario) {
         //echo "executing objetivo_cinco_localidades_visitadas\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 5;
     }
 
-    public static function objetivo_diez_localidades_visitadas($conexion,$usuario) {
+    private static function objetivo_diez_localidades_visitadas($conexion,$usuario) {
         //echo "executing objetivo_cinco_localidades_visitadas\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 10;
     }
+
+    /* POR PROVINCIAS */
+
+    private static function objetivo_dos_provincias_visitadas($conexion,$usuario) {
+        return self::get_provincias_visitadas($conexion, $usuario) >= 2;
+    }
+
+    /* POR COMUNIDADES AUTONOMAS */
+    private static function objetivo_dos_comunidades_autonomas_visitadas($conexion,$usuario) {
+        return self::get_autonomias_visitadas($conexion, $usuario) >= 2;
+    }
+
+
+    /* FUNCIONES PUBLICAS */
 
     public static function get($conexion,$usuario) {
         $v = $logros = array();

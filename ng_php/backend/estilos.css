@@ -1,0 +1,67 @@
+form {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.contenedor {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.centrado {
+    width: 800px;
+    margin: auto;
+    background-color: gainsboro;
+}
+
+.titulo_campo {
+    text-align: right;
+    padding-right: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+.dato_campo {
+    text-align: left;
+    padding-left: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+}

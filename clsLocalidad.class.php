@@ -13,7 +13,7 @@ class Localidad {
         $jsonfile = file_get_contents($json, false, $context);
             
         $RG_array = json_decode($jsonfile,true);
-        
+                
         if (isset($RG_array['place_id'])) {
             $place_id = $RG_array['place_id'];
         }
