@@ -5,7 +5,7 @@ Host=rtexa3j8.instances.spawn.cc;Port=32068;Username=spawn_admin_cBuT;Database=f
 truncate puntos; truncate usuarios_registro; truncate logros;
 */
 
-include_once 'basededatos.php';
+include_once './ng_php/backend/api/basededatos.php';
 
 
 function get_id_provincia_por_idgeo($conexion,$idgeo) {

@@ -37,6 +37,11 @@ if ($funcion == "get_logros") {
     $o->autonomias = Estadisticas::get_total_numero_autonomias($conexion);
     $o->autonomias_visitadas = Estadisticas::get_autonomias_visitadas($conexion,$usuario);
     $o->porcentaje_autonomias = sprintf("%.2f", ($o->autonomias_visitadas / $o->autonomias) * 100);
+
+    $datos_logros = Estadisticas::get($conexion,$usuario);
+    $o->logros = $datos_logros['logros'];
+    $o->total_puntos = $datos_logros['total_puntos'];
+    //var_dump($o->logros);
     
     $o->ok = true;
     $o->msg = "mensaje";

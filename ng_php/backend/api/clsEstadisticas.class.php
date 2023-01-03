@@ -61,6 +61,11 @@ class Estadisticas {
         return self::get_localidades_visitadas($conexion, $usuario) >= 10;
     }
 
+    private static function todas_las_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) == get_total_numero_localidades($conexion);
+    }
+
     /* POR PROVINCIAS */
 
     private static function objetivo_dos_provincias_visitadas($conexion,$usuario) {
@@ -98,15 +103,21 @@ class Estadisticas {
         if (count($v) > 0) foreach($v as $reg) {
             $comando = $reg->comando;
             $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario);
-            if ($resultado === true) {
-                $logros[] = $reg;
+            $reg->conseguido = false;
+            if ($resultado === true) {                
+                $reg->conseguido = true;
             }
+            $logros[] = $reg;
         }
 
         $total_puntos = 0;
         if (count($logros) > 0) foreach($logros as $logro) {
-            $total_puntos += $logro->puntos;
+            if ($logro->conseguido== true) {
+                $total_puntos += $logro->puntos;
+            }
         }
+
+        //var_dump($logros);
 
         return array("logros" => $logros, "total_puntos" => $total_puntos);
     }

@@ -8,7 +8,7 @@ $conexion = get_nueva_conexion();
 
 $fichero = "fichero.gpx";
 $fichero = "fichero_2.gpx";
-$fichero = "fichero_3.gpx";
+//$fichero = "fichero_3.gpx";
 $usuario = 0;
 
 GPX::procesa($conexion,$fichero,$usuario); 

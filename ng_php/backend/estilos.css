@@ -65,3 +65,33 @@ input[type="submit"]:hover {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 14px;
 }
+
+.titulo_total_puntos {
+    text-align: center;
+    padding-right: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+#tbl_logros {
+    width: 100%;
+    margin: auto;
+    background-color: palegoldenrod;
+}
+
+.img_logro {
+    width: 100px;
+    height: 80px;
+    border: 2px solid rebeccapurple;
+}
+
+.img_sin_logro {
+    width: 100px;
+    height: 80px;
+    border: 2px solid gainsboro;
+}
+
+.td_img {
+    text-align: center;
+}
