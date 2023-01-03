@@ -1,5 +1,8 @@
 <?php
     $usuario = $_POST['usuario'];
+    if (trim($usuario) == '') {
+        $usuario = 0;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +15,7 @@
     <h1 style='text-align:center;'>logros de usuario <?php echo $usuario; ?> V.1.1</h1>
     <div class="contenedor">
         <div class="centrado">
-            <table style="width:100%;border:2px solid black;" rules="all" cellpadding="10px">
+            <table style="width:100%;border:2px solid black;" rules="none" cellpadding="10px">
                 <tr>
                     <td class="titulo_campo" style="min-width:280px;">Poblaciones visitadas</td>
                     <td class="dato_campo" style="width:100%;" id="poblaciones_visitadas"></td>
@@ -68,18 +71,47 @@
             else {
                 row = fila_actual;
             }
+
+            var celda_tabla = document.createElement('td');  
+            var tabla =  document.createElement('table'); 
+            var fila_tabla = document.createElement('tr');
+
+
             var col = document.createElement('td');  
             col.className = 'td_img';
             var clase_img = "img_logro";                
+            console.log(elemento.conseguido);
             if (elemento.conseguido == false) {
                 var clase_img = "img_sin_logro";
             }       
-            col.innerHTML = '<img class="'  + clase_img + '">';            
+
+            var logo_elemento = '';            
+            if ((elemento.logo != null) && (elemento.conseguido == true))  {
+                logo_elemento = 'src="./imagenes/' + elemento.logo + '.png"';
+            }
+
+            col.innerHTML = '<img class="'  + clase_img + '" ' + logo_elemento + '>';                        
             col.style.width = porc;        
-            row.appendChild(col);            
-            var table = document.getElementById("tbl_logros");
-            table.appendChild(row);
+            fila_tabla.appendChild(col); 
+
+            var fila_tabla_2 = document.createElement('tr');
+            var col = document.createElement('td');  
+            col.innerHTML = elemento.nombre ;
+            col.className = 'td_descripcion';
+            if (elemento.conseguido == true) {
+                col.className = 'td_descripcion_bold';
+            }            
+            fila_tabla_2.appendChild(col); 
+
+            tabla.appendChild(fila_tabla);
+            tabla.appendChild(fila_tabla_2);
+            tabla.border = 2;
+
+            celda_tabla.appendChild(tabla);
+            row.appendChild(celda_tabla);
             
+            var table = document.getElementById("tbl_logros");
+            table.appendChild(row);            
         }
 
         var usuario = '<?php echo $usuario; ?>';

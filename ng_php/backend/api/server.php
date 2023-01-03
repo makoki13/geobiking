@@ -26,7 +26,7 @@ if ($funcion == "get_logros") {
     include_once 'clsEstadisticas.class.php';
     $datos = Estadisticas::get($conexion,$usuario);
 
-    $o->poblaciones = Estadisticas::get_total_numero_localidades($conexion);
+    $o->poblaciones = Estadisticas::get_total_numero_localidades($conexion);    
     $o->poblaciones_visitadas = Estadisticas::get_localidades_visitadas($conexion, $usuario);
     $o->porcentaje_poblaciones = sprintf("%.2f", ($o->poblaciones_visitadas / $o->poblaciones) * 100);
 

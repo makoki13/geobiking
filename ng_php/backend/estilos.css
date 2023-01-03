@@ -48,7 +48,7 @@ input[type="submit"]:hover {
 .centrado {
     width: 800px;
     margin: auto;
-    background-color: gainsboro;
+    background-color: #EEEEEE;
 }
 
 .titulo_campo {
@@ -89,9 +89,34 @@ input[type="submit"]:hover {
 .img_sin_logro {
     width: 100px;
     height: 80px;
-    border: 2px solid gainsboro;
+    border: 0px solid gainsboro;
 }
 
 .td_img {
     text-align: center;
+    height:100px;
+    width:100px;
+}
+
+.td_descripcion {
+    text-align: center;
+    padding: 2px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic; 
+    font-size: 16px;
+    height:77px;
+    width:100px;
+    color: gray;
+}
+
+.td_descripcion_bold {
+    text-align: center;
+    padding: 2px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic; 
+    font-size: 16px;
+    height:77px;
+    width:100px;
+    font-weight: bolder;
+    color: black;
 }

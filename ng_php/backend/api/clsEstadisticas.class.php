@@ -47,12 +47,10 @@ class Estadisticas {
     }
 
     private static function objetivo_dos_localidades_visitadas($conexion,$usuario) {
-        //echo "executing objetivo_dos_localidades_visitadas\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 2;
     }
 
     private static function objetivo_cinco_localidades_visitadas($conexion,$usuario) {
-        //echo "executing objetivo_cinco_localidades_visitadas\n";
         return self::get_localidades_visitadas($conexion, $usuario) >= 5;
     }
 
@@ -61,9 +59,43 @@ class Estadisticas {
         return self::get_localidades_visitadas($conexion, $usuario) >= 10;
     }
 
-    private static function todas_las_localidades_visitadas($conexion,$usuario) {
+    private static function objetivo_50_localidades_visitadas($conexion,$usuario) {
         //echo "executing objetivo_cinco_localidades_visitadas\n";
-        return self::get_localidades_visitadas($conexion, $usuario) == get_total_numero_localidades($conexion);
+        return self::get_localidades_visitadas($conexion, $usuario) >= 50;
+    }
+
+    private static function objetivo_100_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 100;
+    }
+
+    private static function objetivo_200_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 200;
+    }
+
+    private static function objetivo_500_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 500;
+    }
+
+    private static function objetivo_1000_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 1000;
+    }
+
+    private static function objetivo_2000_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 2000;
+    }
+
+    private static function objetivo_5000_localidades_visitadas($conexion,$usuario) {
+        //echo "executing objetivo_cinco_localidades_visitadas\n";
+        return self::get_localidades_visitadas($conexion, $usuario) >= 5000;
+    }
+
+    private static function objetivo_todas_las_localidades_visitadas($conexion,$usuario) {
+        return self::get_localidades_visitadas($conexion, $usuario) == self::get_total_numero_localidades($conexion);
     }
 
     /* POR PROVINCIAS */
@@ -91,8 +123,8 @@ class Estadisticas {
                 $o = new stdClass();
                 $o->id = pg_result($lista,$i,'id');
                 $o->nombre = pg_result($lista,$i,'nombre');
-                $o->tipo = pg_result($lista,$i,'tipo');
-                $o->logo = pg_result($lista,$i,'logo');
+                $o->tipo = pg_result($lista,$i,'tipo');                
+                $o->logo = pg_result($lista,$i,'logo');                
                 $o->comando = pg_result($lista,$i,'comando');
                 $o->puntos = pg_result($lista,$i,'puntos');
                                 
