@@ -94,18 +94,18 @@ input[type="submit"]:hover {
 
 .td_img {
     text-align: center;
-    height:100px;
-    width:100px;
+    height: 100px;
+    width: 100px;
 }
 
 .td_descripcion {
     text-align: center;
     padding: 2px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-style: italic; 
+    font-style: italic;
     font-size: 16px;
-    height:77px;
-    width:100px;
+    height: 77px;
+    width: 100px;
     color: gray;
 }
 
@@ -113,10 +113,55 @@ input[type="submit"]:hover {
     text-align: center;
     padding: 2px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-style: italic; 
+    font-style: italic;
     font-size: 16px;
-    height:77px;
-    width:100px;
+    height: 77px;
+    width: 100px;
     font-weight: bolder;
     color: black;
+}
+
+button {
+    width: 100%;
+    background-color: beige;
+}
+
+button.seleccionado {
+    background-color: orange;
+}
+
+.autonomia {
+    text-align: left;
+    padding-left: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+    color: blueviolet;
+    text-shadow: 1px 1px 1px cyan;
+    padding-top: 20px;
+}
+
+.provincia {
+    text-align: right;
+    padding-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    color: blueviolet;
+    text-shadow: 1px 1px 1px cyan;
+    width: 100%;
+    min-width: 190px;
+}
+
+.celda_datos_provincia {
+    text-align: left;
+    padding-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+    min-width: 200px;
+}
+
+.celda_provincia {
+    min-width: 250px;
 }

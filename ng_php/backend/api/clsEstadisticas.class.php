@@ -109,14 +109,94 @@ class Estadisticas {
         return self::get_autonomias_visitadas($conexion, $usuario) >= 2;
     }
 
+    /* POR CADA PROVINCIA */
+    private static function get_poblaciones_de_provincia_visitadas($conexion,$usuario,$provincia) {
+        $sql="select count(*) from usuarios_registro where usuario=$usuario and localidad in (select id from localidades where provincia=$provincia)";
+        return db_get_dato($conexion,$sql);
+    }
+
+    private static function get_poblaciones_de_provincia($conexion,$provincia) {
+        $sql="select poblaciones from provincias where id=$provincia";
+        return db_get_dato($conexion,$sql);
+    }
+
+    private static function provincia_10_por_cien_visitado($conexion,$usuario,$provincia) {
+        $poblaciones_visitadas = self::get_poblaciones_de_provincia_visitadas($conexion,$usuario,$provincia);
+        $poblaciones_totales = self::get_poblaciones_de_provincia($conexion,$provincia);
+        $porcentaje = 0;
+        if ($poblaciones_totales > 0) {
+            $porcentaje = $poblaciones_visitadas / $poblaciones_totales;
+        }
+        
+        return $porcentaje >= 0.1;
+    }
+
+    private static function provincia_25_por_cien_visitado($conexion,$usuario,$provincia) {
+        $poblaciones_visitadas = self::get_poblaciones_de_provincia_visitadas($conexion,$usuario,$provincia);
+        $poblaciones_totales = self::get_poblaciones_de_provincia($conexion,$provincia);
+        $porcentaje = 0;
+        if ($poblaciones_totales > 0) {
+            $porcentaje = $poblaciones_visitadas / $poblaciones_totales;
+        }
+        
+        return $porcentaje >= 0.25;
+    }
+
 
     /* FUNCIONES PUBLICAS */
 
-    public static function get($conexion,$usuario) {
+    public static function get($conexion,$usuario,$sql) {
         $v = $logros = array();
 
         //obtener la lista de logros
+        $lista = db_get_tabla($conexion,$sql, $filas);        
+        if ($filas > 0) {            
+            for ($i=0; $i < $filas; $i++) {
+                $o = new stdClass();
+                $o->id = pg_result($lista,$i,'id');
+                $o->nombre = pg_result($lista,$i,'nombre');
+                $o->tipo = pg_result($lista,$i,'tipo');                
+                $o->logo = pg_result($lista,$i,'logo');                
+                $o->comando = pg_result($lista,$i,'comando');
+                $o->puntos = pg_result($lista,$i,'puntos');
+                                
+                $v[] = $o;
+            }
+        }
+
+        if (count($v) > 0) foreach($v as $reg) {
+            $comando = $reg->comando;
+            $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario, $provincia);
+            $reg->conseguido = false;
+            if ($resultado === true) {                
+                $reg->conseguido = true;
+            }
+            $logros[] = $reg;            
+        }
+
+        $total_puntos = 0;
+        if (count($logros) > 0) foreach($logros as $logro) {
+            if ($logro->conseguido== true) {                
+                $total_puntos += $logro->puntos;
+            }
+        }
+
+        return array("logros" => $logros, "total_puntos" => $total_puntos);
+    }
+
+    public static function get_global($conexion,$usuario) {
         $sql="select * from logros order by id";
+        return self::get($conexion,$usuario,$sql);
+    }
+ 
+    public static function get_general($conexion,$usuario) {
+        $sql="select * from logros where tipo in (1,3,5) order by id";
+        return self::get($conexion,$usuario,$sql);
+
+        $v = $logros = array();
+
+        //obtener la lista de logros
+        
         $lista = db_get_tabla($conexion,$sql, $filas);
         if ($filas > 0) {            
             for ($i=0; $i < $filas; $i++) {
@@ -153,4 +233,66 @@ class Estadisticas {
 
         return array("logros" => $logros, "total_puntos" => $total_puntos);
     }
+
+    public static function get_provinciales($conexion,$usuario) {
+        $v = array();
+        $sql="select id,nombre from autonomias";
+        $autonomias = db_get_tabla($conexion,$sql,$filas);
+        for($i=0; $i < $filas; $i++) {
+            $o = new stdClass();
+            $o->id_autonomia = pg_result($autonomias,$i,'id');
+            $o->nombre_autonomia = pg_result($autonomias,$i,'nombre');
+            
+            $sql="select id,nombre from provincias where autonomia=" . $o->id_autonomia;
+            $provincias = db_get_tabla($conexion,$sql,$filas_provincias);
+            $o->provincias = array();
+            //echo "filas provincias: $filas_provincias<br>";
+            for($j=0; $j < $filas_provincias; $j++) {
+                $p = new stdClass();
+                $p->id_provincia = pg_result($provincias,$j,'id');
+                $p->nombre_provincia = pg_result($provincias,$j,'nombre');
+                
+                $p->poblaciones = self::get_poblaciones_de_provincia($conexion,$p->id_provincia);
+                $p->visitadas = self::get_poblaciones_de_provincia_visitadas($conexion,$usuario,$p->id_provincia);
+                $p->porcentaje = 0;
+                if ($p->poblaciones > 0) {
+                    $p->porcentaje = number_format( ($p->visitadas / $p->poblaciones) * 100, 2, ",", "") ;
+                }
+
+                $logro = new stdClass();
+                $logro->id = 13;
+                $logro->nombre = "10 % visitado";
+                $logro->tipo = 2;                
+                $logro->logo = "img_2";                
+                $logro->comando = "provincia_10_por_cien_visitado";
+                $logro->puntos = 100;
+                $resultado = Estadisticas::provincia_10_por_cien_visitado( $conexion, $usuario, $p->id_provincia);
+                $logro->conseguido = false;
+                if ($resultado === true) {                
+                    $logro->conseguido = true;
+                }                
+                $p->logros[] = $logro;
+
+                $logro = new stdClass();
+                $logro->id = 14;
+                $logro->nombre = "25 % visitado";
+                $logro->tipo = 2;                
+                $logro->logo = "img_3";                
+                $logro->comando = "provincia_25_por_cien_visitado";
+                $logro->puntos = 100;
+                $resultado = Estadisticas::provincia_25_por_cien_visitado( $conexion, $usuario, $p->id_provincia);
+                $logro->conseguido = false;
+                if ($resultado === true) {                
+                    $logro->conseguido = true;
+                }                
+                $p->logros[] = $logro;
+
+                $o->provincias[] = $p;
+            }            
+
+            $v[] = $o;
+        }
+        
+        return $v;        
+    } 
 }
