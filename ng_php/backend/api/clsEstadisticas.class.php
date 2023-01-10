@@ -104,6 +104,22 @@ class Estadisticas {
         return self::get_provincias_visitadas($conexion, $usuario) >= 2;
     }
 
+    private static function objetivo_cinco_provincias_visitadas($conexion,$usuario) {
+        return self::get_provincias_visitadas($conexion, $usuario) >= 5;
+    }
+
+    private static function objetivo_diez_provincias_visitadas($conexion,$usuario) {
+        return self::get_provincias_visitadas($conexion, $usuario) >= 10;
+    }
+
+    private static function objetivo_25_provincias_visitadas($conexion,$usuario) {
+        return self::get_provincias_visitadas($conexion, $usuario) >= 25;
+    }
+
+    private static function objetivo_todas_provincias_visitadas($conexion,$usuario) {
+        return self::get_provincias_visitadas($conexion, $usuario) == self::get_total_numero_provincias($conexion);
+    }
+
     /* POR COMUNIDADES AUTONOMAS */
     private static function objetivo_dos_comunidades_autonomas_visitadas($conexion,$usuario) {
         return self::get_autonomias_visitadas($conexion, $usuario) >= 2;
