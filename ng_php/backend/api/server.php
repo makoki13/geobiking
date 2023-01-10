@@ -94,5 +94,20 @@ if ($funcion == "get_logros_provincia") {
     die(json_encode($o));    
 }
 
+if ($funcion == "get_logros_autonomia") {
+    $o = new stdClass();
+
+    $conexion = connect();
+
+    include_once 'clsEstadisticas.class.php';
+    $o->datos_autonomicos = Estadisticas::get_autonomias($conexion,$usuario);
+            
+    $o->ok = true;
+    $o->msg = "mensaje";
+    $o->usuario = $usuario;
+
+    die(json_encode($o));    
+}
+
 
 

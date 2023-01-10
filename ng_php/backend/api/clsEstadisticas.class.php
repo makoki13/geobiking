@@ -158,6 +158,52 @@ class Estadisticas {
         return $porcentaje >= 0.25;
     }
 
+    /* POR CADA AUTONOMIA */
+    private static function get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$autonomia) {
+        $sql="
+            select count(*) 
+            from usuarios_registro 
+            where 
+                usuario=$usuario and 
+                localidad in 
+                    (
+                        select id from localidades where provincia in 
+                            (
+                                select id from provincias where autonomia=$autonomia
+                            )
+                    )
+        ";
+        return db_get_dato($conexion,$sql);
+    }
+
+    private static function get_poblaciones_de_autonomia($conexion,$autonomia) {
+        $sql="select sum(poblaciones) from provincias where autonomia=$autonomia";
+        return db_get_dato($conexion,$sql);
+    }
+
+    private static function autonomia_10_por_cien_visitado($conexion,$usuario,$autonomia) {
+        $poblaciones_visitadas = self::get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$autonomia);
+        $poblaciones_totales = self::get_poblaciones_de_autonomia($conexion,$autonomia);
+        $porcentaje = 0;
+        if ($poblaciones_totales > 0) {
+            $porcentaje = $poblaciones_visitadas / $poblaciones_totales;
+        }
+        
+        return $porcentaje >= 0.1;
+    }
+
+    private static function autonomia_25_por_cien_visitado($conexion,$usuario,$autonomia) {
+        $poblaciones_visitadas = self::get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$autonomia);
+        $poblaciones_totales = self::get_poblaciones_de_autonomia($conexion,$autonomia);
+        $porcentaje = 0;
+        if ($poblaciones_totales > 0) {
+            $porcentaje = $poblaciones_visitadas / $poblaciones_totales;
+        }
+        
+        return $porcentaje >= 0.25;
+    }
+
+
 
     /* FUNCIONES PUBLICAS */
 
@@ -311,4 +357,52 @@ class Estadisticas {
         
         return $v;        
     } 
+
+    public static function get_autonomias($conexion,$usuario) {
+        $v = array();
+        $sql="select id,nombre from autonomias";
+        $autonomias = db_get_tabla($conexion,$sql,$filas);
+        for($i=0; $i < $filas; $i++) {
+            $o = new stdClass();
+            $o->id_autonomia = pg_result($autonomias,$i,'id');
+            $o->nombre_autonomia = pg_result($autonomias,$i,'nombre');                        
+            $o->poblaciones = self::get_poblaciones_de_autonomia($conexion,$o->id_autonomia);
+            $o->visitadas = self::get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$o->id_autonomia);
+            $o->porcentaje = 0;
+            if ($o->poblaciones > 0) {
+                $o->porcentaje = number_format( ($o->visitadas / $o->poblaciones) * 100, 2, ",", "") ;
+            }
+            $logro = new stdClass();
+            $logro->id = 23;
+            $logro->nombre = "10 % visitado";
+            $logro->tipo = 4;                
+            $logro->logo = "img_2";                
+            $logro->comando = "autonomia_10_por_cien_visitado";
+            $logro->puntos = 500;
+            $resultado = Estadisticas::autonomia_10_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
+            $logro->conseguido = false;
+            if ($resultado === true) {                
+                $logro->conseguido = true;
+            }                
+            $o->logros[] = $logro;
+
+            $logro = new stdClass();
+            $logro->id = 24;
+            $logro->nombre = "25 % visitado";
+            $logro->tipo = 4;                
+            $logro->logo = "img_3";                
+            $logro->comando = "autonomia_25_por_cien_visitado";
+            $logro->puntos = 1000;
+            $resultado = Estadisticas::autonomia_25_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
+            $logro->conseguido = false;
+            if ($resultado === true) {                
+                $logro->conseguido = true;
+            }                
+            $o->logros[] = $logro;
+
+            $v[] = $o;            
+        }
+        
+        return $v;        
+    }
 }

@@ -165,3 +165,14 @@ button.seleccionado {
 .celda_provincia {
     min-width: 250px;
 }
+
+.autonomia_2 {
+    text-align: right;
+    padding-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    color: blueviolet;
+    text-shadow: 1px 1px 1px cyan;
+    width: 100%;
+    min-width: 250px;
+}

@@ -28,7 +28,7 @@
             } else if (o.id == "btn_provincia") {
                 ver_logros_provincia();
             } else {
-                //ver_logros_autonomia();
+                ver_logros_autonomia();
             }
         }
     </script>
@@ -219,6 +219,51 @@
             tbl_logros.appendChild(fila_tabla);
         }
 
+        function add_autonomias(elemento) {
+            var fila_tabla = document.createElement('tr');
+            var celda_tabla = document.createElement('td'); 
+            
+            var tabla_autonomia =  document.createElement('table'); 
+            var fila_autonomia = document.createElement('tr');
+            var celda_autonomia = document.createElement('td');  
+
+            celda_autonomia.innerHTML = elemento.nombre_autonomia ;
+            celda_autonomia.className = 'autonomia_2';
+            fila_autonomia.appendChild(celda_autonomia);
+
+            celda_autonomia = document.createElement('td');   
+            celda_autonomia.className="celda_datos_provincia";
+            celda_autonomia.innerHTML = elemento.poblaciones + " poblaciones" ;                
+            fila_autonomia.appendChild(celda_autonomia);
+
+            celda_autonomia = document.createElement('td');
+            celda_autonomia.className="celda_datos_provincia";
+            if (elemento.visitadas > 0) {
+                celda_autonomia.innerHTML = elemento.visitadas + " visitadas" ;                
+            }   
+            else {
+                celda_autonomia.innerHTML = "&nbsp;" ;                
+            }
+            fila_autonomia.appendChild(celda_autonomia);
+
+            celda_autonomia = document.createElement('td');
+            celda_autonomia.className="celda_datos_provincia";   
+            if (elemento.visitadas > 0) {
+                celda_autonomia.innerHTML = elemento.porcentaje + "%" ;
+            }
+            else {
+                celda_autonomia.innerHTML = "&nbsp;" ;
+            }
+            fila_autonomia.appendChild(celda_autonomia);
+
+            tabla_autonomia.appendChild(fila_autonomia);
+
+            celda_tabla.appendChild(tabla_autonomia);
+            fila_tabla.appendChild(celda_tabla);
+
+            tbl_logros.appendChild(fila_tabla);
+        }
+
         var usuario = '<?php echo $usuario; ?>';
 
         function ver_logros_general() {
@@ -324,6 +369,38 @@
                     document.getElementById('tbl_logros').innerHTML = "";                    
                     if (resultado.datos_provinciales.length > 0) {                        
                         resultado.datos_provinciales.forEach(add_provinciales);
+                    }
+                    document.getElementById("tabla_menu").style.visibility = 'visible';
+                }
+            });
+        }
+
+        function ver_logros_autonomia() {
+            datos_ajax = {
+                funcion: 'get_logros_autonomia',
+                usuario: usuario,
+            }
+
+            $.ajax ({
+                url: 'http://127.0.0.1:8080/api/server.php',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(datos_ajax),
+                dataType: "json",
+                processData: false,
+                method: "POST",
+                success: function (data) {
+                    console.log('success', data);
+                },
+                error: function (data) {
+                    console.log('error', data);
+                }
+            }).done( function (resultado) {
+                console.log(resultado);
+
+                if (resultado.ok === true ) {                    
+                    document.getElementById('tbl_logros').innerHTML = "";                    
+                    if (resultado.datos_autonomicos.length > 0) {                        
+                        resultado.datos_autonomicos.forEach(add_autonomias);
                     }
                     document.getElementById("tabla_menu").style.visibility = 'visible';
                 }
