@@ -44,6 +44,16 @@ class Estadisticas {
         return $filas;
     }
 
+    public static function get_autonomias_insulares_visitadas($conexion,$usuario) {
+        $sql="
+            select distinct autonomia 
+            from provincias p inner join localidades l on l.provincia = p.id inner join usuarios_registro ur on l.id = ur.localidad 
+            where ur.usuario=$usuario and autonomia in (8,12)
+        ";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        return $filas;
+    }
+
     public static function get_total_numero_autonomias($conexion) {
         $sql="select count(*) from autonomias";
         return db_get_dato($conexion,$sql);
@@ -52,6 +62,21 @@ class Estadisticas {
     public static function get_total_numero_autonomias_peninsulares($conexion) {
         $sql="select count(*) from autonomias where not id in (8,12,18,19)";
         return db_get_dato($conexion,$sql);
+    }
+
+    public static function get_total_numero_autonomias_insulares($conexion) {
+        $sql="select count(*) from autonomias where id in (8,12)";
+        return db_get_dato($conexion,$sql);
+    }
+
+    public static function autonomia_esta_visitada($conexion,$usuario,$autonomia) {
+        $sql="
+            select distinct autonomia 
+            from provincias p inner join localidades l on l.provincia = p.id inner join usuarios_registro ur on l.id = ur.localidad 
+            where ur.usuario=$usuario and autonomia=$autonomia
+        ";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        return $filas > 0;
     }
 
     /* POR LOCALIDADES */
@@ -150,6 +175,26 @@ class Estadisticas {
 
     private static function objetivo_todas_comunidades_autonomas_peninsulares_visitadas($conexion,$usuario) {
         return self::get_autonomias_peninsulares_visitadas($conexion, $usuario) == self::get_total_numero_autonomias_peninsulares($conexion);
+    }
+
+    private static function objetivo_1_autonomia_insular_visitada($conexion,$usuario) {
+        return self::get_autonomias_insulares_visitadas($conexion, $usuario) > 0;
+    }
+
+    private static function objetivo_todas_autonomias_insulares_visitadas($conexion,$usuario) {
+        return self::get_autonomias_insulares_visitadas($conexion, $usuario) == self::get_total_numero_autonomias_insulares($conexion);
+    }
+
+    private static function objetivo_ceuta_visitada($conexion,$usuario) {
+        return self::autonomia_esta_visitada($conexion, $usuario,18);
+    }
+
+    private static function objetivo_melilla_visitada($conexion,$usuario) {
+        return self::autonomia_esta_visitada($conexion, $usuario,19);
+    }
+
+    private static function objetivo_ceuta_y_melilla_visitada($conexion,$usuario) {
+        return self::autonomia_esta_visitada($conexion, $usuario,18) && self::autonomia_esta_visitada($conexion, $usuario,19);
     }
 
     /* POR CADA PROVINCIA */
@@ -254,8 +299,8 @@ class Estadisticas {
         }
 
         if (count($v) > 0) foreach($v as $reg) {
-            $comando = $reg->comando;
-            $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario, $provincia);
+            $comando = $reg->comando;            
+            $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario, $provincia);            
             $reg->conseguido = false;
             if ($resultado === true) {                
                 $reg->conseguido = true;
@@ -274,7 +319,7 @@ class Estadisticas {
     }
 
     public static function get_global($conexion,$usuario) {
-        $sql="select * from logros order by id";
+        $sql="select * from logros order by id";        
         return self::get($conexion,$usuario,$sql);
     }
  
@@ -352,7 +397,7 @@ class Estadisticas {
                 $logro->id = 13;
                 $logro->nombre = "10 % visitado";
                 $logro->tipo = 2;                
-                $logro->logo = "img_2";                
+                $logro->logo = "img_13";                
                 $logro->comando = "provincia_10_por_cien_visitado";
                 $logro->puntos = 100;
                 $resultado = Estadisticas::provincia_10_por_cien_visitado( $conexion, $usuario, $p->id_provincia);
@@ -366,7 +411,7 @@ class Estadisticas {
                 $logro->id = 14;
                 $logro->nombre = "25 % visitado";
                 $logro->tipo = 2;                
-                $logro->logo = "img_3";                
+                $logro->logo = "img_14";                
                 $logro->comando = "provincia_25_por_cien_visitado";
                 $logro->puntos = 100;
                 $resultado = Estadisticas::provincia_25_por_cien_visitado( $conexion, $usuario, $p->id_provincia);

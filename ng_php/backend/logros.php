@@ -100,12 +100,10 @@
         }
 
         var fila_actual = null;
-        function add_logro(elemento,num_item) {         
-            console.log(elemento);
-
+        function add_logro(elemento,num_item) {
             num_items_por_fila = 5;
             porc = num_items_por_fila + "%";
-            if (num_item % num_items_por_fila == 0) {            
+            if (num_item % num_items_por_fila == 0) {
                 var row = document.createElement('tr');
                 fila_actual = row;
             }
@@ -120,8 +118,7 @@
 
             var col = document.createElement('td');  
             col.className = 'td_img';
-            var clase_img = "img_logro";                
-            console.log(elemento.conseguido);
+            var clase_img = "img_logro";
             if (elemento.conseguido == false) {
                 var clase_img = "img_sin_logro";
             }       
@@ -152,6 +149,7 @@
             row.appendChild(celda_tabla);
             
             var table = document.getElementById("tbl_logros");
+            //var table = document.getElementById(parametros.tabla);
             table.appendChild(row);            
         }
 
@@ -169,12 +167,28 @@
             fila_autonomia.appendChild(celda_autonomia);
             tabla_autonomia.appendChild(fila_autonomia);
 
-            elemento.provincias.forEach(function(item) {                
+            var num_items_por_fila = 5;
+            var porc = num_items_por_fila + "%";
+            
+            elemento.provincias.forEach(function(item) {     
+                console.log(item);
+
                 fila_provincia = document.createElement('tr');
                 celda_provincia = document.createElement('td');   
                 
                 var tabla_item_provincia =  document.createElement('table'); 
                 var fila_item_provincia = document.createElement('tr');
+                celda_provincia.className = "fila_provincia";
+                fila_item_provincia.style.cursor="pointer";
+                fila_item_provincia.onclick = function() {
+                    console.log(item.nombre_provincia)
+                    if (document.getElementById(item.nombre_provincia).style.display=='') {
+                        document.getElementById(item.nombre_provincia).style.display="none";
+                    }
+                    else {
+                        document.getElementById(item.nombre_provincia).style.display="";
+                    }                    
+                }
                 
                 var celda_item_provincia= document.createElement('td');                   
                 celda_item_provincia.innerHTML = item.nombre_provincia ;
@@ -204,9 +218,88 @@
                 else {
                     celda_item_provincia.innerHTML = "&nbsp;" ;
                 }
-                fila_item_provincia.appendChild(celda_item_provincia);
 
+                fila_item_provincia.appendChild(celda_item_provincia);
                 tabla_item_provincia.appendChild(fila_item_provincia);
+
+
+
+
+
+
+
+                var fila_item_logros = document.createElement('tr');
+                fila_item_logros.style.display="none";
+                fila_item_logros.id = item.nombre_provincia;
+
+                item.logros.forEach(function(elemento,num_item) {                    
+                    var celda_tabla = document.createElement('td');  
+                    var tabla =  document.createElement('table'); 
+                    var fila_tabla = document.createElement('tr');
+
+
+                    var col = document.createElement('td');  
+                    col.className = 'td_img';
+                    var clase_img = "img_logro";
+                    if (elemento.conseguido == false) {
+                        var clase_img = "img_sin_logro";
+                    }       
+
+                    var logo_elemento = '';            
+                    if ((elemento.logo != null) && (elemento.conseguido == true))  {
+                        logo_elemento = 'src="./imagenes/' + elemento.logo + '.png"';
+                    }
+
+                    col.innerHTML = '<img class="'  + clase_img + '" ' + logo_elemento + '>';                        
+                    col.style.width = porc;        
+                    fila_tabla.appendChild(col); 
+
+                    var fila_tabla_2 = document.createElement('tr');
+                    var col = document.createElement('td');  
+                    col.innerHTML = elemento.nombre ;
+                    col.className = 'td_descripcion';
+                    if (elemento.conseguido == true) {
+                        col.className = 'td_descripcion_bold';
+                    }            
+                    fila_tabla_2.appendChild(col); 
+
+                    tabla.appendChild(fila_tabla);
+                    tabla.appendChild(fila_tabla_2);
+                    tabla.border = 2;
+
+                    celda_tabla.appendChild(tabla);
+                    fila_item_logros.appendChild(celda_tabla);                      
+                });
+                tabla_item_provincia.appendChild(fila_item_logros);
+
+
+                
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+                
+                
+
                 celda_provincia.appendChild(tabla_item_provincia);
                 fila_provincia.appendChild(celda_provincia);
                 
@@ -280,14 +373,12 @@
                 processData: false,
                 method: "POST",
                 success: function (data) {
-                    console.log('success', data);
+                    
                 },
                 error: function (data) {
                     console.log('error', data);
                 }
             }).done( function (resultado) {
-                console.log(resultado);
-
                 if (resultado.ok === true ) {
                     /* muestra_datos_globales(
                         resultado.poblaciones_visitadas, resultado.poblaciones, resultado.porcentaje_poblaciones,
@@ -298,7 +389,7 @@
                     
                     if (resultado.logros.length > 0) {
                         document.getElementById('tbl_logros').innerHTML = "";                    
-                        
+                        var params={tabla_datos:"tbl_logros"};
                         resultado.logros.forEach(add_logro);
                     }
 
@@ -321,14 +412,12 @@
                 processData: false,
                 method: "POST",
                 success: function (data) {
-                    console.log('success', data);
+                    
                 },
                 error: function (data) {
                     console.log('error', data);
                 }
             }).done( function (resultado) {
-                console.log(resultado);
-
                 if (resultado.ok === true ) {                    
                     muestra_datos_globales(
                         resultado.poblaciones_visitadas, resultado.poblaciones, resultado.porcentaje_poblaciones,
@@ -357,14 +446,12 @@
                 processData: false,
                 method: "POST",
                 success: function (data) {
-                    console.log('success', data);
+                    
                 },
                 error: function (data) {
                     console.log('error', data);
                 }
-            }).done( function (resultado) {
-                console.log(resultado);
-
+            }).done( function (resultado) {                
                 if (resultado.ok === true ) {                    
                     document.getElementById('tbl_logros').innerHTML = "";                    
                     if (resultado.datos_provinciales.length > 0) {                        
@@ -389,14 +476,12 @@
                 processData: false,
                 method: "POST",
                 success: function (data) {
-                    console.log('success', data);
+                    
                 },
                 error: function (data) {
                     console.log('error', data);
                 }
-            }).done( function (resultado) {
-                console.log(resultado);
-
+            }).done( function (resultado) {                
                 if (resultado.ok === true ) {                    
                     document.getElementById('tbl_logros').innerHTML = "";                    
                     if (resultado.datos_autonomicos.length > 0) {                        

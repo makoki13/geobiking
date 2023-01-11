@@ -176,3 +176,8 @@ button.seleccionado {
     width: 100%;
     min-width: 250px;
 }
+
+.fila_provincia {
+    border: 1px solid black;
+    background-color: gainsboro;
+}
