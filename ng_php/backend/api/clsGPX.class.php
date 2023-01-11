@@ -68,4 +68,20 @@ class GPX {
 
         var_dump($ok);
     }
+    
+    public static function guarda_gpx_sin_procesar($conexion,$fichero,$usuario) {
+        $ok = true;
+        if (!self::_existe_fichero($conexion,$fichero,$usuario)) {        
+            $sql="insert into gpx_pendientes (usuario,fichero) values ($usuario,$$" . $fichero . "$$)";
+            $ok = db_inserta($conexion,$sql);
+        }
+
+        return $ok;
+    }
+
+    private static function _existe_fichero($conexion,$fichero,$usuario) {
+        $sql="select count(*) from gpx_pendientes where usuario=$usuario and fichero=$$" . $fichero . "$$";
+        $registros = db_get_dato($conexion,$sql);
+        return ($registros > 0);
+    }
 }
