@@ -24,6 +24,12 @@ class GPX {
                     $datos = get_datos_puntos_guardados($conexion,$lat,$lon);
                     if ($datos===false) {                  
                         $datos = Localidad::osm_get($lat, $lon);
+                        if (substr($datos['provincia'],0,2)!='ES') {
+                            $poblacion = $datos['poblacion'];
+                            $provincia = $datos['provincia'];
+                            echo "***** extranjero!!!! $poblacion . $provincia\n";    
+                            continue;
+                        }
                         $id = $datos['id'];
                         $ok = $ok && inserta_punto($conexion,$id,$lat,$lon);
                         $encontrado = false;

@@ -34,8 +34,23 @@ class Estadisticas {
         return $filas;
     }
 
+    public static function get_autonomias_peninsulares_visitadas($conexion,$usuario) {
+        $sql="
+            select distinct autonomia 
+            from provincias p inner join localidades l on l.provincia = p.id inner join usuarios_registro ur on l.id = ur.localidad 
+            where ur.usuario=$usuario and not autonomia in (8,12,18,19)
+        ";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        return $filas;
+    }
+
     public static function get_total_numero_autonomias($conexion) {
         $sql="select count(*) from autonomias";
+        return db_get_dato($conexion,$sql);
+    }
+
+    public static function get_total_numero_autonomias_peninsulares($conexion) {
+        $sql="select count(*) from autonomias where not id in (8,12,18,19)";
         return db_get_dato($conexion,$sql);
     }
 
@@ -123,6 +138,18 @@ class Estadisticas {
     /* POR COMUNIDADES AUTONOMAS */
     private static function objetivo_dos_comunidades_autonomas_visitadas($conexion,$usuario) {
         return self::get_autonomias_visitadas($conexion, $usuario) >= 2;
+    }
+
+    private static function objetivo_cinco_comunidades_autonomas_visitadas($conexion,$usuario) {
+        return self::get_autonomias_visitadas($conexion, $usuario) >= 5;
+    }
+
+    private static function objetivo_diez_comunidades_autonomas_visitadas($conexion,$usuario) {
+        return self::get_autonomias_visitadas($conexion, $usuario) >= 10;
+    }
+
+    private static function objetivo_todas_comunidades_autonomas_peninsulares_visitadas($conexion,$usuario) {
+        return self::get_autonomias_peninsulares_visitadas($conexion, $usuario) == self::get_total_numero_autonomias_peninsulares($conexion);
     }
 
     /* POR CADA PROVINCIA */
