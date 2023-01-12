@@ -7,7 +7,8 @@ class GPX {
     public static function procesa($conexion,$fichero,$usuario=-1) {
         $ok = true;
 
-        $gpx = simplexml_load_file($fichero);
+        $ruta='./gpx/' . $fichero;
+        $gpx = simplexml_load_file($ruta);
 
         foreach ($gpx->trk as $trk) {    
             foreach ($trk->trkseg as $trkseg) {
@@ -66,13 +67,13 @@ class GPX {
             }
         }
 
-        var_dump($ok);
+        return $ok;
     }
     
     public static function guarda_gpx_sin_procesar($conexion,$fichero,$usuario) {
         $ok = true;
         if (!self::_existe_fichero($conexion,$fichero,$usuario)) {        
-            $sql="insert into gpx_pendientes (usuario,fichero) values ($usuario,$$" . $fichero . "$$)";
+            $sql="insert into gpx (usuario,fichero) values ($usuario,$$" . $fichero . "$$)";
             $ok = db_inserta($conexion,$sql);
         }
 
@@ -80,8 +81,33 @@ class GPX {
     }
 
     private static function _existe_fichero($conexion,$fichero,$usuario) {
-        $sql="select count(*) from gpx_pendientes where usuario=$usuario and fichero=$$" . $fichero . "$$";
+        $sql="select count(*) from gpx where usuario=$usuario and fichero=$$" . $fichero . "$$";
         $registros = db_get_dato($conexion,$sql);
         return ($registros > 0);
+    }
+
+    public static function mueve($archivo) {
+        $ruta='./gpx/';
+        $path_destino = $ruta . "procesados/";        
+        $destino = $ruta.$archivo;
+        return rename($destino, $path_destino . pathinfo($destino, PATHINFO_BASENAME)); 
+    }
+
+    public static function get_lista_gpx_pendientes($conexion) {
+        $sql="select * from gpx where finalizacion is null";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        $lista = array();        
+        for ($i = 0; $i < $filas; $i++) {
+            $lista[$i] = new stdClass();
+            $lista[$i]->usuario = pg_result($reg,$i,'usuario');            
+            $lista[$i]->fichero = pg_result($reg,$i,'fichero');
+        }
+
+        return $lista;
+    }
+
+    public static function marca_gpx_como_procesado($conexion,$fichero,$usuario) {
+        $sql="update gpx set finalizacion = now() where usuario=$usuario and fichero=$$" . $fichero . "$$";
+        return db_inserta($conexion,$sql);
     }
 }

@@ -75,7 +75,7 @@ class Localidad {
     }
 
     public static function set_nombre($conexion,$id,$nombre) {
-        $sql="update localidades set nombre=$$" . trim($nombre) . "$$ where id=$id";
+        $sql="update localidades set nombre=$$" . trim($nombre) . "$$ where id=$id";        
         return db_actualiza($conexion,$sql);
     }
     

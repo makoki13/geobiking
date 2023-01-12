@@ -19,10 +19,6 @@ while ($archivo = readdir($directorio)) //obtenemos un archivo y luego otro suce
         if (trim($archivo)=='procesados') continue;
         GPX::guarda_gpx_sin_procesar($conexion,$archivo,$usuario);
     }
-    
-    /* $destination_path = 'bar/';
-    $destino = $ruta.$archivo;
-    rename($destino, $path_destino . pathinfo($destino, PATHINFO_BASENAME)); */
 }
 
 //GPX::procesa($conexion,$fichero,$usuario); 
