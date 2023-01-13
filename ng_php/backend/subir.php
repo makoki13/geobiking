@@ -96,7 +96,8 @@ if ($funcion=="sube_archivo") {
                                             <input type="hidden" name="nombre_usuario" value="<?php echo $nombre_usuario; ?>" /> 
 				                            <h5  class="texto_archivo"><i></i> Seleccione el archivo a subir: </h5> 
 				                            <hr/>
-				                            <input name="fichero_usuario" type="file" />
+				                            <input class="boton_fichero" name="fichero_usuario" type="file" />
+                                            <hr/>
 				                            <button class="submit" type="submit">Subir Archivo</button> 
 			                            </form> 
                                     </td>    
