@@ -52,6 +52,9 @@ class Localidad {
         if (isset($RG_array['address']['ISO3166-2-lvl6'])) {
             $provincia = $RG_array['address']['ISO3166-2-lvl6'];
         }
+        else {
+            var_dump($RG_array);
+        }
     
         return array("id" => $place_id, "poblacion" => $poblacion, "provincia" => $provincia);
     }
