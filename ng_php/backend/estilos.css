@@ -181,3 +181,85 @@ button.seleccionado {
     border: 1px solid black;
     background-color: gainsboro;
 }
+
+.subir {
+    border: 1px solid #7F9EEE;
+    padding: 20px;
+    width: auto;
+    border-radius: 15px;
+    min-height: 240px;
+    margin: auto;
+    background: #C0E1F9;
+    margin-bottom: 5px;
+}
+
+.titulo {
+    border: 1px solid #89EA53;
+    padding: 10px;
+    width: auto;
+    min-height: 240px;
+    border-radius: 15px;
+    margin: auto;
+    background: #CCF8B4;
+    font-size: 36px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+.anyo {
+    border: 1px solid #89EA53;
+    padding: 10px;
+    width: auto;
+    min-height: 240px;
+    border-radius: 15px;
+    margin: auto;
+    background: #CCF8B4;
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+button {
+    border: 1px solid #89EA53;
+    padding: 10px;
+    width: auto;
+    min-height: 40px;
+    border-radius: 15px;
+    margin: auto;
+    background: #CCF8B4;
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+#nombre_usuario {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+#actualizacion,
+#puntos {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+.texto_celda {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: right;
+    padding-right: 5px;
+    ;
+    color: black;
+    font-weight: borlder;
+    text-shadow: 1px 1px 1px gainsboro;
+}

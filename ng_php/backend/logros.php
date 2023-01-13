@@ -272,34 +272,6 @@
                 });
                 tabla_item_provincia.appendChild(fila_item_logros);
 
-
-                
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-
-
-
-
-
-
-
-                
-                
-
                 celda_provincia.appendChild(tabla_item_provincia);
                 fila_provincia.appendChild(celda_provincia);
                 
