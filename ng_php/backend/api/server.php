@@ -100,15 +100,21 @@ if ($funcion == "get_datos_inicio") {
 
     $conexion = connect();
 
+    include_once 'utilidades.php';
     include_once 'clsEstadisticas.class.php';
     include_once 'clsUsuario.class.php';
     
-    $nombre_usuario = Usuario::get_nombre($conexion,$usuario);
+    $datos_usuario = Usuario::get_datos($conexion,$usuario);
+    $nombre_usuario = $datos_usuario->nombre;
+    $ultima_actualizacion = $datos_usuario->ultima_actualizacion;
+    $str_ultima_actualizacion = substr($ultima_actualizacion,8,2) . " de " . get_nombre_mes(substr($ultima_actualizacion,5,2)) .  " del " . substr($ultima_actualizacion,0,4);
+
     $datos_logros = Estadisticas::get_global($conexion,$usuario);    
 
     $o->ok = true;
     $o->total_puntos = $datos_logros['total_puntos'];
     $o->nombre_usuario = strtoupper($nombre_usuario);
+    $o->ultima_actualizacion = $str_ultima_actualizacion;
 
     die(json_encode($o));    
 }

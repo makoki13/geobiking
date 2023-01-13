@@ -94,10 +94,10 @@ if ($funcion=="sube_archivo") {
                                             <input type="hidden" name="funcion" value="sube_archivo" /> 
                                             <input type="hidden" name="usuario" value="<?php echo $usuario; ?>" /> 
                                             <input type="hidden" name="nombre_usuario" value="<?php echo $nombre_usuario; ?>" /> 
-				                            <h5><i class=""></i> Seleccione el archivo a subir: </h5> 
+				                            <h5  class="texto_archivo"><i></i> Seleccione el archivo a subir: </h5> 
 				                            <hr/>
 				                            <input name="fichero_usuario" type="file" />
-				                            <button class="" type="submit"><i class=""></i> Subir Archivo</button> 
+				                            <button class="submit" type="submit">Subir Archivo</button> 
 			                            </form> 
                                     </td>    
                                 </tr>                                
@@ -110,7 +110,7 @@ if ($funcion=="sube_archivo") {
                             <table style="background-color:pink;height:100%;width:100%;">
                                 <tr>
                                     <td class="anyo" style="width:100%;text-align:center;">
-                                        2023
+                                        <?php echo date("d-m-Y"); ?>
                                     </td>    
                                 </tr>                                
                             </table>
@@ -149,7 +149,7 @@ if ($funcion=="sube_archivo") {
                 if (resultado.ok === true ) {
                     document.getElementById("nombre_usuario").innerHTML = resultado.nombre_usuario;
                     document.getElementById("puntos").innerHTML = resultado.total_puntos;
-                    document.getElementById("actualizacion").innerHTML = "13 de Enero de 2023";
+                    document.getElementById("actualizacion").innerHTML = resultado.ultima_actualizacion;
                 }
             });
         }

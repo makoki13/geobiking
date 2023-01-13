@@ -183,7 +183,7 @@ button.seleccionado {
 }
 
 .subir {
-    border: 1px solid #7F9EEE;
+    border: 0px solid #7F9EEE;
     padding: 20px;
     width: auto;
     border-radius: 15px;
@@ -258,8 +258,25 @@ button {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: right;
     padding-right: 5px;
-    ;
     color: black;
-    font-weight: borlder;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+.texto_archivo {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding-right: 5px;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+}
+
+.submit {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding-right: 5px;
+    color: black;
     text-shadow: 1px 1px 1px gainsboro;
 }
