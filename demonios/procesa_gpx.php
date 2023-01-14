@@ -15,7 +15,9 @@ function recoge_nuevos_gpx($conexion) {
         {
             if (trim($archivo)=='procesados') continue;
             $usuario = substr($archivo,1,strpos($archivo,"_")-1);
-            echo "archivo $archivo usuario: $usuario\n";
+            $texto = "recogiendo archivo $archivo usuario: $usuario\n";            
+            echo $texto . "\n";
+            $ok = $ok && GPX::inserta_en_log_gpx($conexion,$archivo,$texto);
             GPX::guarda_gpx_sin_procesar($conexion,$archivo,$usuario);
         }
     }
@@ -27,7 +29,9 @@ function procesa_gpx($conexion,$registro) {
     $ok = true;
     $usuario = $registro->usuario;
     $fichero = $registro->fichero;
-    echo "usuario = $usuario && fichero = $fichero\n";
+    $texto = "procesando gpx usuario = $usuario && fichero = $fichero\n";
+    echo $texto . "\n";
+    $ok = $ok && GPX::inserta_en_log_gpx($conexion,$fichero,$texto);
     $ok = $ok && GPX::procesa($conexion,$fichero,$usuario);    
     $ok = $ok && GPX::mueve($fichero);
     $ok = $ok && GPX::marca_gpx_como_procesado($conexion,$fichero,$usuario);
@@ -56,5 +60,3 @@ while(true) {
 
     sleep(60 * 5);
 }
-
-var_dump($ok);

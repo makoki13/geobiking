@@ -30,7 +30,7 @@ class GPX {
                             $provincia = $datos['provincia'];
                             $texto = "***** extranjero!!!! $poblacion . $provincia\n";    
                             echo $texto . "\n";
-                            self::inserta_en_log($conexion,$fichero,$texto);    
+                            self::inserta_en_log_puntos($conexion,$fichero,$texto);    
                             continue;
                         }
                         $id = $datos['id'];
@@ -45,14 +45,14 @@ class GPX {
                     if ($encontrado=== false) {
                         $texto = "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
                         echo $texto . "\n";
-                        self::inserta_en_log($conexion,$fichero,$texto);
+                        self::inserta_en_log_puntos($conexion,$fichero,$texto);
                     }
                     
                     if (Localidad::existe($conexion,$id) === false) {
                         $resp = Localidad::inserta($conexion,$id, $poblacion, '', $provincia);                    
                         $texto = "***** nueva $poblacion [$id] de la provincia $provincia\n";
                         echo $texto . "\n";
-                        self::inserta_en_log($conexion,$fichero,$texto);
+                        self::inserta_en_log_puntos($conexion,$fichero,$texto);
                     }
                     else {
                         if (Localidad::nombre($conexion,$id) == '') {
@@ -117,17 +117,42 @@ class GPX {
         return db_inserta($conexion,$sql);
     }
 
-    private static function inserta_punto($conexion,$id_poblacion,$lat, $lon) {
+    private static function existe_punto($conexion,$id_poblacion,$lat, $lon) {
+        $sql="select count(*) from puntos where id_poblacion=$id_poblacion and lat=$lat and lon=$lon";        
+        $registros = db_get_dato($conexion,$sql);
+        return ($registros != 0);
+    }
+
+    public static function inserta_punto($conexion,$id_poblacion,$lat, $lon) {
         $ok = true;
-        $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat,$lon)";
-        $ok = $ok && db_inserta($conexion,$sql);
+
+        $lat = trim($lat);
+        $lon = trim($lon);
+        
+        if (self::existe_punto($conexion,$id_poblacion,$lat, $lon)==false) {
+            $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat,$lon)";
+            echo $sql."\n";
+            $ok = $ok && db_inserta($conexion,$sql);
+        }
+        else {
+            echo "hemos detectado el punto $lat, $lon de la poblacion $id_poblacion Y NO SE HA METIDO!!!! :-) \n";
+            exit();
+        }
 
         return $ok;        
     }    
 
-    private static function inserta_en_log($conexion,$fichero,$texto) {
+    private static function inserta_en_log_puntos($conexion,$fichero,$texto) {
         $ok = true;
         $sql="insert into logs.puntos (fichero,texto) values ($$" . $fichero . "$$,$$". $texto . "$$)";
+        $ok = $ok && db_inserta($conexion,$sql);
+
+        return $ok;
+    }
+
+    public static function inserta_en_log_gpx($conexion,$fichero,$texto) {
+        $ok = true;
+        $sql="insert into logs.gpx (fichero,texto) values ($$" . $fichero . "$$,$$". $texto . "$$)";
         $ok = $ok && db_inserta($conexion,$sql);
 
         return $ok;

@@ -1,15 +1,21 @@
 <?php
-include_once 'utilidades.php';
+include_once './ng_php/backend/api/utilidades.php';
+include_once './ng_php/backend/api/clsGPX.class.php';
 
 $conexion = get_nueva_conexion();
-
-var_dump($conexion);
 
 $lat = 38.915278; $lon = -0.204444; //ador
 $lat = 39.851901; $lon = -0.489554; // segorbe
 $lat = 38.715278; $lon = -0.05; // Tarbena
-$lat = 38.97567; $lon=-0.157035; //????
 
+
+$id_poblacion = 307721335;
+$lat = 40.1840005; $lon=-2.8881113; //????
+
+$resp = GPX::inserta_punto($conexion,$id_poblacion,$lat, $lon);
+var_dump($resp);
+
+/* 
 $datos = get_datos_puntos_guardados($conexion,$lat,$lon);
 if ($datos===false) {
     echo "no se ha encontrado\n";
@@ -30,6 +36,6 @@ if (existe_localidad($conexion,$id)) {
 }
 else {
     $resp = inserta_localidad($conexion,$id, $poblacion, '', $provincia);
-}
+} 
 
-var_dump($datos);
+var_dump($datos);*/
