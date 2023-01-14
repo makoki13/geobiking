@@ -209,13 +209,13 @@ button.seleccionado {
 }
 
 .anyo {
-    border: 1px solid #89EA53;
+    border: 1px solid rebeccapurple;
     padding: 10px;
     width: auto;
     min-height: 240px;
     border-radius: 15px;
     margin: auto;
-    background: #CCF8B4;
+    background: pink;
     font-size: 24px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;

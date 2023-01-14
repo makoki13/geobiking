@@ -152,7 +152,7 @@ class Estadisticas {
         return self::get_provincias_visitadas($conexion, $usuario) >= 10;
     }
 
-    private static function objetivo_25_provincias_visitadas($conexion,$usuario) {
+    private static function objetivo_provincia_25_por_cien_visitadas($conexion,$usuario) {
         return self::get_provincias_visitadas($conexion, $usuario) >= 25;
     }
 
@@ -193,7 +193,7 @@ class Estadisticas {
         return self::autonomia_esta_visitada($conexion, $usuario,19);
     }
 
-    private static function objetivo_ceuta_y_melilla_visitada($conexion,$usuario) {
+    private static function objetivo_ceuta_y_melilla_visitadas($conexion,$usuario) {
         return self::autonomia_esta_visitada($conexion, $usuario,18) && self::autonomia_esta_visitada($conexion, $usuario,19);
     }
 
@@ -253,7 +253,7 @@ class Estadisticas {
         return db_get_dato($conexion,$sql);
     }
 
-    private static function autonomia_10_por_cien_visitado($conexion,$usuario,$autonomia) {
+    private static function objetivo_autonomia_10_por_cien_visitado($conexion,$usuario,$autonomia) {
         $poblaciones_visitadas = self::get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$autonomia);
         $poblaciones_totales = self::get_poblaciones_de_autonomia($conexion,$autonomia);
         $porcentaje = 0;
@@ -264,7 +264,7 @@ class Estadisticas {
         return $porcentaje >= 0.1;
     }
 
-    private static function autonomia_25_por_cien_visitado($conexion,$usuario,$autonomia) {
+    private static function objetivo_autonomia_25_por_cien_visitado($conexion,$usuario,$autonomia) {
         $poblaciones_visitadas = self::get_poblaciones_de_autonomia_visitadas($conexion,$usuario,$autonomia);
         $poblaciones_totales = self::get_poblaciones_de_autonomia($conexion,$autonomia);
         $porcentaje = 0;

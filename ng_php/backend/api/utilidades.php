@@ -15,11 +15,6 @@ function get_id_provincia_por_idgeo($conexion,$idgeo) {
     return $valor;
 }
 
-function inserta_punto($conexion,$id_poblacion,$lat, $lon) {
-    $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat,$lon)";
-    return db_inserta($conexion,$sql);
-}
-
 function get_datos_puntos_guardados($conexion,$lat,$lon) {
     $sql="select id_poblacion from puntos where punto[0] = $lat and punto[1] = $lon";
     

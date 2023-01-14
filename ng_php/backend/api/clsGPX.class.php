@@ -28,11 +28,13 @@ class GPX {
                         if (substr($datos['provincia'],0,2)!='ES') {
                             $poblacion = $datos['poblacion'];
                             $provincia = $datos['provincia'];
-                            echo "***** extranjero!!!! $poblacion . $provincia\n";    
+                            $texto = "***** extranjero!!!! $poblacion . $provincia\n";    
+                            echo $texto . "\n";
+                            self::inserta_en_log($conexion,$fichero,$texto);    
                             continue;
                         }
                         $id = $datos['id'];
-                        $ok = $ok && inserta_punto($conexion,$id,$lat,$lon);
+                        $ok = $ok && self::inserta_punto($conexion,$id,$lat,$lon);
                         $encontrado = false;
                     }
                     
@@ -41,12 +43,16 @@ class GPX {
                     $provincia = $datos['provincia'];
 
                     if ($encontrado=== false) {
-                        echo "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
+                        $texto = "lat: $lat . long: $lon -> poblacion [$id] $poblacion [$provincia]\n";
+                        echo $texto . "\n";
+                        self::inserta_en_log($conexion,$fichero,$texto);
                     }
                     
                     if (Localidad::existe($conexion,$id) === false) {
                         $resp = Localidad::inserta($conexion,$id, $poblacion, '', $provincia);                    
-                        echo "***** nueva $poblacion [$id] de la provincia $provincia\n";
+                        $texto = "***** nueva $poblacion [$id] de la provincia $provincia\n";
+                        echo $texto . "\n";
+                        self::inserta_en_log($conexion,$fichero,$texto);
                     }
                     else {
                         if (Localidad::nombre($conexion,$id) == '') {
@@ -109,5 +115,21 @@ class GPX {
     public static function marca_gpx_como_procesado($conexion,$fichero,$usuario) {
         $sql="update gpx set finalizacion = now() where usuario=$usuario and fichero=$$" . $fichero . "$$";
         return db_inserta($conexion,$sql);
+    }
+
+    private static function inserta_punto($conexion,$id_poblacion,$lat, $lon) {
+        $ok = true;
+        $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat,$lon)";
+        $ok = $ok && db_inserta($conexion,$sql);
+
+        return $ok;        
+    }    
+
+    private static function inserta_en_log($conexion,$fichero,$texto) {
+        $ok = true;
+        $sql="insert into logs.puntos (fichero,texto) values ($$" . $fichero . "$$,$$". $texto . "$$)";
+        $ok = $ok && db_inserta($conexion,$sql);
+
+        return $ok;
     }
 }

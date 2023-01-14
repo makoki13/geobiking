@@ -8,7 +8,7 @@ if (trim($usuario) == '') {
 $funcion = $_POST['funcion'];
 
 if ($funcion=="sube_archivo") {    
-    $fichero_subido = "../../gpx/" . basename($_FILES['fichero_usuario']['name']);    
+    $fichero_subido = "../../gpx/u" . $usuario .  "_" .  basename($_FILES['fichero_usuario']['name']);    
     $resp = move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido);
     if ($resp==false) {
 ?>
@@ -36,7 +36,7 @@ if ($funcion=="sube_archivo") {
     <table rules="all">
         <tr>
             <td style="width:50%;">&nbsp;</td>
-            <td style="min-width:600px;">
+            <td style="min-width:700px;">
                 <table style="width:100%;border:2px solid darkred;" rules="all">
                     <tr>
                         <td>
@@ -59,7 +59,7 @@ if ($funcion=="sube_archivo") {
                                     <td style="border:2px solid black;">
                                         <table style="height:100%;width:100%;">
                                             <tr>
-                                                <td class="texto_celda" style="min-width:260px;">Puntos:</td>
+                                                <td class="texto_celda" style="min-width:300px;">Puntos:</td>
                                                 <td style="width:100%;" id="puntos"></td>
                                             </tr>    
                                             <tr>
@@ -69,7 +69,7 @@ if ($funcion=="sube_archivo") {
                                         </table>
                                     </td>    
                                 </tr>    
-                                <tr style="min-height:550px;">
+                                <tr>
                                     <td style="padding-top:20px;padding-bottom:20px;">                                        
                                         <table style="width:100%;">
                                             <tr>
