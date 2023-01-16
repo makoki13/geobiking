@@ -152,7 +152,7 @@ class Estadisticas {
         return self::get_provincias_visitadas($conexion, $usuario) >= 10;
     }
 
-    private static function objetivo_provincia_25_por_cien_visitadas($conexion,$usuario) {
+    private static function objetivo_25_provincias_visitadas($conexion,$usuario) {
         return self::get_provincias_visitadas($conexion, $usuario) >= 25;
     }
 
@@ -219,7 +219,7 @@ class Estadisticas {
         return $porcentaje >= 0.1;
     }
 
-    private static function provincia_25_por_cien_visitado($conexion,$usuario,$provincia) {
+    private static function objetivo_provincia_25_por_cien_visitado($conexion,$usuario,$provincia) {
         $poblaciones_visitadas = self::get_poblaciones_de_provincia_visitadas($conexion,$usuario,$provincia);
         $poblaciones_totales = self::get_poblaciones_de_provincia($conexion,$provincia);
         $porcentaje = 0;
@@ -300,7 +300,7 @@ class Estadisticas {
 
         if (count($v) > 0) foreach($v as $reg) {
             $comando = $reg->comando;            
-            $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario, $provincia);            
+            $resultado = call_user_func("Estadisticas::" . $comando, $conexion, $usuario, null);            
             $reg->conseguido = false;
             if ($resultado === true) {                
                 $reg->conseguido = true;
@@ -414,7 +414,7 @@ class Estadisticas {
                 $logro->logo = "img_14";                
                 $logro->comando = "provincia_25_por_cien_visitado";
                 $logro->puntos = 100;
-                $resultado = Estadisticas::provincia_25_por_cien_visitado( $conexion, $usuario, $p->id_provincia);
+                $resultado = Estadisticas::objetivo_provincia_25_por_cien_visitado( $conexion, $usuario, $p->id_provincia);
                 $logro->conseguido = false;
                 if ($resultado === true) {                
                     $logro->conseguido = true;

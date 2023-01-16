@@ -12,7 +12,7 @@ if ($funcion=="sube_archivo") {
     $resp = move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido);
     if ($resp==false) {
 ?>
-        <sript>alert("Error al subir el fichero");</script>
+        <script>alert("Error al subir el fichero");</script>
 <?php
     }
     else {
@@ -93,7 +93,7 @@ if ($funcion=="sube_archivo") {
 			                                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" /> 
                                             <input type="hidden" name="funcion" value="sube_archivo" /> 
                                             <input type="hidden" name="usuario" value="<?php echo $usuario; ?>" /> 
-                                            <input type="hidden" name="nombre_usuario" value="<?php echo $nombre_usuario; ?>" /> 
+                                            <input type="hidden" name="nombre_usuario" value="" /> 
 				                            <h5  class="texto_archivo"><i></i> Seleccione el archivo a subir: </h5> 
 				                            <hr/>
 				                            <input class="boton_fichero" name="fichero_usuario" type="file" />
