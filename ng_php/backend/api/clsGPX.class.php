@@ -5,7 +5,8 @@ include_once 'clsLocalidad.class.php';
 
 class GPX {
     public static $numero_de_segundos_de_diferencia = 10;
-    public static function procesa($conexion,$fichero,$usuario=-1) {
+
+    public static function procesa($conexion,$fichero,$usuario=-1, $detalle = false) {
         $ok = true;
 
         $ruta='./gpx/' . $fichero;
@@ -27,12 +28,13 @@ class GPX {
                     $origin = new DateTime($ultima_fecha, new DateTimeZone('UTC') );
                     $target = new DateTime($hora_gpx, new DateTimeZone('UTC') );
                     $interval = $origin->diff($target);
-
                                         
-                    if ($interval->s < self::$numero_de_segundos_de_diferencia) {
-                        continue;
+                    if ($detalle==false) {
+                        if ($interval->s < self::$numero_de_segundos_de_diferencia) {
+                            continue;
+                        }
                     }
-                    
+                                        
                     $ultima_fecha = $hora_gpx;
 
                     $lat = (float) $trkpt['lat'];
@@ -149,6 +151,11 @@ class GPX {
 
     public static function marca_gpx_como_procesado($conexion,$fichero,$usuario) {
         $sql="update gpx set finalizacion = now() where usuario=$usuario and fichero=$$" . $fichero . "$$";
+        return db_inserta($conexion,$sql);
+    }
+
+    public static function marca_gpx_como_procesado_en_detalle($conexion,$fichero,$usuario) {
+        $sql="update gpx set detalle = true where usuario=$usuario and fichero=$$" . $fichero . "$$";
         return db_inserta($conexion,$sql);
     }
 
