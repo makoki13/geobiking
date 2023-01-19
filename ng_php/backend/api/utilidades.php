@@ -5,32 +5,9 @@ Host=rtexa3j8.instances.spawn.cc;Port=32068;Username=spawn_admin_cBuT;Database=f
 truncate puntos; truncate usuarios_registro; truncate logros;
 */
 
-include_once './basededatos.php';
 
 
-function get_id_provincia_por_idgeo($conexion,$idgeo) {
-    $sql="select id from provincias where id_geo=$$" . $idgeo . "$$"; 
-    $valor = db_get_dato($conexion,$sql);
-    return $valor;
-}
-
-function get_datos_puntos_guardados($conexion,$lat,$lon) {
-    $sql="select id_poblacion from puntos where punto[0] = $lat and punto[1] = $lon";
-    
-    $id_poblacion = db_get_dato($conexion,$sql);
-    
-
-    if ($id_poblacion == false) {
-        return false;
-    }
-
-    $sql="select nombre,provincia from localidades where id=$id_poblacion";    
-    $datos = db_get_registro($conexion,$sql);
-    $poblacion = get_campo($datos, 0);
-    $provincia = get_campo($datos, 1);
-
-    return array("id" => $id_poblacion, "poblacion" => $poblacion, "provincia" => $provincia);
-}
+@include_once './basededatos.php';
 
 function existe_en_usuarios_registro($conexion,$usuario,$localidad) {
     $sql="select count(*) from usuarios_registro where usuario=$usuario and localidad=$localidad";    
@@ -91,4 +68,23 @@ function get_nombre_mes($mes) {
             return "mes desconocido";
             break;
     }
+}
+
+function de_hora_gpx_a_hora_php($hora_gpx = 0) {
+    if (trim($hora_gpx)=='') return 0;
+
+    $elementos = explode("T",$hora_gpx);
+    $fecha = $elementos[0];
+    $elementos_fecha = explode("-",$fecha);
+    $anyo = intval($elementos_fecha[0]);
+    $mes = intval($elementos_fecha[1]);
+    $dia = intval($elementos_fecha[2]);    
+    if (count($elementos) > 1) {        
+        $hora = $elementos[1];
+        $elementos_hora = explode(":",$hora);
+        $hora = intval($elementos_hora[0]);
+        $minutos = intval($elementos_hora[1]);
+        $segundos = intval($elementos_hora[2]);
+    }
+    return mktime($hora, $minutos, $segundos, $mes, $dia, $anyo);
 }

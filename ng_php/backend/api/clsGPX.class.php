@@ -4,6 +4,7 @@ include_once 'utilidades.php';
 include_once 'clsLocalidad.class.php';
 
 class GPX {
+    public static $numero_de_segundos_de_diferencia = 10;
     public static function procesa($conexion,$fichero,$usuario=-1) {
         $ok = true;
 
@@ -13,16 +14,32 @@ class GPX {
         foreach ($gpx->trk as $trk) {    
             foreach ($trk->trkseg as $trkseg) {
                 $i = 0;
-                $num_tracks = count($trkseg->trkpt);    
+                $num_tracks = count($trkseg->trkpt);                        
+                $ultima_fecha = "1970-01-01T";            
                 foreach ($trkseg->trkpt as $trkpt) {
                     $fila = $i + 1;
                     echo "** fila $fila de $num_tracks\n";
                     $i++;
+                    
+                    $hora_gpx = $trkpt->time;                                        
+                    //$momento = de_hora_gpx_a_hora_php($hora_gpx);
+                    
+                    $origin = new DateTime($ultima_fecha, new DateTimeZone('UTC') );
+                    $target = new DateTime($hora_gpx, new DateTimeZone('UTC') );
+                    $interval = $origin->diff($target);
+
+                                        
+                    if ($interval->s < self::$numero_de_segundos_de_diferencia) {
+                        continue;
+                    }
+                    
+                    $ultima_fecha = $hora_gpx;
+
                     $lat = (float) $trkpt['lat'];
                     $lon = (float) $trkpt['lon'];
 
                     $encontrado = true;
-                    $datos = get_datos_puntos_guardados($conexion,$lat,$lon);
+                    $datos = self::get_datos_puntos_guardados($conexion,$lat,$lon);                    
                     if ($datos===false) {                  
                         $datos = Localidad::osm_get($lat, $lon);
                         if (substr($datos['provincia'],0,2)!='ES') {
@@ -37,7 +54,7 @@ class GPX {
                         $ok = $ok && self::inserta_punto($conexion,$id,$lat,$lon);
                         $encontrado = false;
                     }
-                    
+                                        
                     $id = $datos['id'];
                     $poblacion = $datos['poblacion'];
                     $provincia = $datos['provincia'];
@@ -86,6 +103,24 @@ class GPX {
         return $ok;
     }
 
+    private static function get_datos_puntos_guardados($conexion,$lat,$lon) {
+        $lat_cuatro_decimales = sprintf("%.5f",$lat);
+        $lon_cuatro_decimales = sprintf("%.5f",$lon);
+        $sql="select id_poblacion from puntos where lat = $lat_cuatro_decimales and lon = $lon_cuatro_decimales";                
+        $id_poblacion = db_get_dato($conexion,$sql);
+                    
+        if ($id_poblacion == false) {
+            return false;
+        }
+    
+        $sql="select nombre,provincia from localidades where id=$id_poblacion";
+        $datos = db_get_registro($conexion,$sql);
+        $poblacion = get_campo($datos, 0);
+        $provincia = get_campo($datos, 1);
+    
+        return array("id" => $id_poblacion, "poblacion" => $poblacion, "provincia" => $provincia);
+    }
+
     private static function _existe_fichero($conexion,$fichero,$usuario) {
         $sql="select count(*) from gpx where usuario=$usuario and fichero=$$" . $fichero . "$$";
         $registros = db_get_dato($conexion,$sql);
@@ -118,7 +153,9 @@ class GPX {
     }
 
     private static function existe_punto($conexion,$id_poblacion,$lat, $lon) {
-        $sql="select count(*) from puntos where id_poblacion=$id_poblacion and lat=$lat and lon=$lon";        
+        $lat_cuatro_decimales = sprintf("%.5f",$lat);
+        $lon_cuatro_decimales = sprintf("%.5f",$lon);
+        $sql="select count(*) from puntos where id_poblacion=$id_poblacion and lat=$lat_cuatro_decimales and lon=$lon_cuatro_decimales";        
         $registros = db_get_dato($conexion,$sql);
         return ($registros != 0);
     }
@@ -130,13 +167,14 @@ class GPX {
         $lon = trim($lon);
         
         if (self::existe_punto($conexion,$id_poblacion,$lat, $lon)==false) {
-            $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat,$lon)";
-            echo $sql."\n";
+            $lat_cuatro_decimales = sprintf("%.5f",$lat);
+            $lon_cuatro_decimales = sprintf("%.5f",$lon);
+            $sql="insert into puntos (id_poblacion,punto,lat,lon) values ($id_poblacion,point($lat,$lon),$lat_cuatro_decimales,$lon_cuatro_decimales)";
             $ok = $ok && db_inserta($conexion,$sql);
         }
         else {
-            echo "hemos detectado el punto $lat, $lon de la poblacion $id_poblacion Y NO SE HA METIDO!!!! :-) \n";
-            exit();
+            //echo "hemos detectado el punto $lat, $lon de la poblacion $id_poblacion Y NO SE HA METIDO!!!! :-) \n";
+            //exit();
         }
 
         return $ok;        

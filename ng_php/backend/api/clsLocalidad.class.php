@@ -37,7 +37,7 @@ class Localidad {
         if (isset($RG_array['address']['town'])) {
             $poblacion_3 = $RG_array['address']['town'];
         }
-    
+
         $poblacion = $poblacion_1;
         if (trim($poblacion)=='') {
             $poblacion = $poblacion_2;
@@ -50,12 +50,19 @@ class Localidad {
         }
     
         if (isset($RG_array['address']['ISO3166-2-lvl6'])) {
-            $provincia = $RG_array['address']['ISO3166-2-lvl6'];
+            $provincia = $RG_array['address']['ISO3166-2-lvl6'];            
         }
-        else {
-            var_dump($RG_array);
+        else {            
+            if (isset($RG_array['address']['ISO3166-2-lvl4'])) {
+                $provincia = $RG_array['address']['ISO3166-2-lvl4'];                
+            }
+            else {
+                var_dump($RG_array);                
+                exit();
+            }
+            
         }
-    
+            
         return array("id" => $place_id, "poblacion" => $poblacion, "provincia" => $provincia);
     }
     
@@ -65,8 +72,8 @@ class Localidad {
         return ($valor > 0);
     }
 
-    public static function inserta($conexion,$id, $nombre, $ine, $provincia) {
-        $id_provincia = get_id_provincia_por_idgeo($conexion,$provincia);
+    public static function inserta($conexion,$id, $nombre, $ine, $provincia) {        
+        $id_provincia = self::get_id_provincia_por_idgeo($conexion,$provincia);
         $sql="insert into localidades (id,nombre,ine,provincia) values ($id,$$" . trim($nombre) . "$$,$$" . trim($ine) . "$$,$id_provincia)";
         return db_inserta($conexion,$sql);
     }
@@ -80,6 +87,16 @@ class Localidad {
     public static function set_nombre($conexion,$id,$nombre) {
         $sql="update localidades set nombre=$$" . trim($nombre) . "$$ where id=$id";        
         return db_actualiza($conexion,$sql);
+    }
+
+    private static function get_id_provincia_por_idgeo($conexion,$idgeo) {
+        $sql="
+            select id from provincias where id_geo=$$" . $idgeo . "$$
+            union
+            select id_provincia from regiones where id_geo=$$" . $idgeo . "$$
+        ";
+        $valor = db_get_dato($conexion,$sql);
+        return $valor;
     }
     
     

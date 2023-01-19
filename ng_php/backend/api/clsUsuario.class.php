@@ -26,7 +26,7 @@ class Usuario {
     }
 
     public static function set_ultima_actualizacion($conexion,$usuario) {
-        $sql="update usuarios set ultima_actualizacion=LOCALTIMESTAMP where usuario=$usuario";
+        $sql="update usuarios set ultima_actualizacion=LOCALTIMESTAMP where id=$usuario";
         return db_actualiza($conexion,$sql);
     }
 }
