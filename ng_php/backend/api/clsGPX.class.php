@@ -9,7 +9,12 @@ class GPX {
     public static function procesa($conexion,$fichero,$usuario=-1, $detalle = false) {
         $ok = true;
 
-        $ruta='./gpx/' . $fichero;
+        if ($detalle==false) {
+            $ruta='./gpx/' . $fichero;
+        }
+        else {
+            $ruta='./gpx/procesados/' . $fichero;
+        }
         $gpx = simplexml_load_file($ruta);
 
         foreach ($gpx->trk as $trk) {    
