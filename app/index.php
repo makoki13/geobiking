@@ -6,7 +6,7 @@
     </head>
     <body>
         <!--<form action="logros.php" method="post">-->
-        <form action="subir.php" method="post">
+        <form action="frontend/registro.php" method="post">
             <input type="hidden" name="usuario" value="0">
         </form>
         <script>

@@ -119,5 +119,13 @@ if ($funcion == "get_datos_inicio") {
     die(json_encode($o));    
 }
 
+if ($funcion=="registra") {
+    $o = new stdClass();
+
+    $o->ok = true;
+
+    die(json_encode($o));
+}
+
 
 

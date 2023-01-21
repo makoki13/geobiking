@@ -24,7 +24,7 @@ class GPX {
                 $ultima_fecha = "1970-01-01T";            
                 foreach ($trkseg->trkpt as $trkpt) {
                     $fila = $i + 1;
-                    echo "** fila $fila de $num_tracks\n";
+                    echo "** fila $fila de $num_tracks [". date("d.m.y H:i:s") ."]\n";
                     $i++;
                     
                     $hora_gpx = $trkpt->time;                                        

@@ -1,8 +1,8 @@
 <?php
-include_once './ng_php/backend/api/utilidades.php';
-include_once './ng_php/backend/api/clsGPX.class.php';
-include_once './ng_php/backend/api/clsBaseDeDatos.class.php';
-include_once './ng_php/backend/api/clsUsuario.class.php';
+include_once './app/backend/api/utilidades.php';
+include_once './app/backend/api/clsGPX.class.php';
+include_once './app/backend/api/clsBaseDeDatos.class.php';
+include_once './app/backend/api/clsUsuario.class.php';
 
 function recoge_gpx_sin_detalle(&$filas) {
     $sql="select fichero from gpx where detalle=false";

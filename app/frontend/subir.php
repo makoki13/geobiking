@@ -134,7 +134,7 @@ if ($funcion=="sube_archivo") {
             }
 
             $.ajax ({
-                url: 'http://127.0.0.1:8080/api/server.php',
+                url: 'http://127.0.0.1:8080/backend/api/server.php',
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(datos_ajax),
                 dataType: "json",

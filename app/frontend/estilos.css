@@ -289,3 +289,26 @@ button {
     color: black;
     text-shadow: 1px 1px 1px gainsboro;
 }
+
+.etiqueta_registro {
+    font-size: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+    padding-left: 5px;
+    color: rgb(72, 10, 187);
+    text-shadow: 1px 1px 1px gainsboro;
+    font-style: italic;
+    vertical-align: bottom;
+}
+
+.input_registro {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 5px;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+    vertical-align: top;
+    height: 100%;
+}
