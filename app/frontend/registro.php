@@ -286,6 +286,7 @@
         function registra() {
         datos_ajax = {
             funcion: 'registra',
+            usuario: -1
         }
 
         $.ajax ({
