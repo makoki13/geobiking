@@ -1,5 +1,7 @@
 <?php
 
+//https://serversmtp.com/
+
 /* $destinatario = 'elcorreodepabloprieto@gmail.com';
 $titulo = 'test correo';
 $cuerpo = '<html><body><h1>Funciona!</h1></body></html>';
