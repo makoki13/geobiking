@@ -4,6 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+include_once 'clsBaseDeDatos.class.php';
+
 function connect()
 {
     $cadena_conexion = "host=rtexa3j8.instances.spawn.cc port=32068 dbname=foobardb user=spawn_admin_cBuT password=J0XccA3aXpL8T9qz connect_timeout=5";
@@ -56,8 +58,7 @@ if ($funcion == "get_logros_globales") {
 
     $datos_logros = Estadisticas::get_global($conexion,$usuario);
     $o->total_puntos = $datos_logros['total_puntos'];
-    //var_dump($o->logros);
-    
+        
     $o->ok = true;
     $o->msg = "mensaje";
     $o->usuario = $usuario;
@@ -119,10 +120,34 @@ if ($funcion == "get_datos_inicio") {
     die(json_encode($o));    
 }
 
-if ($funcion=="registra") {
-    $o = new stdClass();
+if ($funcion=="registra") {    
+    include_once 'clsUsuario.class.php';
 
+    $conexion = BaseDeDatos::get_nueva_conexion();
+    
+    $o = new stdClass();
+    
+    $datos->nombre_usuario = $datos->nombre_usuario;
+    $datos->correo = $datos->correo;
+    $datos->correo_2 = $datos->correo_2;
+    $datos->clave = $datos->clave;
+    $datos->clave_2 = $datos->clave_2;
+    
     $o->ok = true;
+
+    $respuesta = Usuario::check_formulario_registro($conexion,$datos);
+    $o->ok = $respuesta->ok;
+    $o->msg = $respuesta->msg;
+    $o->id_error = $respuesta->id_error;
+        
+    if ($o->ok == true) {        
+        $datos->id = $respuesta->id;
+        $respuesta = new stdClass();
+        $respuesta = Usuario::registra($conexion,$datos);
+        $o->ok = $respuesta->ok;
+        $o->msg = $respuesta->msg;
+        $o->id_error = $respuesta->id_error;
+    }
 
     die(json_encode($o));
 }

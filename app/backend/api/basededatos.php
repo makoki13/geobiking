@@ -18,7 +18,9 @@ function db_get_dato($conexion,$sql) {
 }
 
 function db_inserta($conexion,$sql) {
-    return pg_query($conexion,$sql);
+    $res = pg_query($conexion,$sql);
+    return ($res!==false);
+
 }
 
 function db_actualiza($conexion,$sql) {

@@ -169,16 +169,6 @@
 
             return true;
         }
-
-        function pre_registro(o) {            
-            o.disabled = true;
-            if (test_formulario()===true) {
-                registra();
-            }
-            o.disabled = false;
-            
-            return false;
-        }
     </script>
 </head>
     <body onload = "javascript:document.getElementById('username').focus();">
@@ -284,33 +274,71 @@
 
     <script>
         function registra() {
-        datos_ajax = {
-            funcion: 'registra',
-            usuario: -1
+            var nombre_usuario = document.getElementById('username').value;            
+            var correo = document.getElementById('email').value;
+            var correo_2 = document.getElementById('email2').value;
+            var clave = document.getElementById('password').value;
+            var clave_2 = document.getElementById('password2').value;
+
+            datos_ajax = {
+                funcion: 'registra',
+                usuario: -1,
+                nombre_usuario: nombre_usuario,
+                correo: correo,
+                correo_2: correo_2,
+                clave: clave,
+                clave_2: clave_2,
+            }
+
+            $.ajax ({
+                url: 'http://127.0.0.1:8080/backend/api/server.php',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(datos_ajax),
+                dataType: "json",
+                processData: false,
+                method: "POST",
+                success: function (data) {
+                    console.log('success', data);
+                },
+                error: function (data) {
+                    console.log('error', data);
+                }
+            }).done( function (resultado) {
+                console.log(resultado);
+                if (resultado.ok === true) {
+                    todo_ok();
+                }
+                else {
+                    muestra_mensaje_error(resultado.msg);
+                    switch(resultado.id_error) {
+                        case 1:
+                        case 2:
+                            document.getElementById('username').focus();
+                            document.getElementById('username').select();
+                            break;
+                        case 3:
+                        case 4:    
+                            document.getElementById('email').focus();
+                            document.getElementById('email').select();
+                            break;
+                        case 5:
+                        case 6:    
+                            document.getElementById('password').focus();
+                            document.getElementById('password').select();
+                            break;
+                    }
+                }
+            });
         }
 
-        $.ajax ({
-            url: 'http://127.0.0.1:8080/backend/api/server.php',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(datos_ajax),
-            dataType: "json",
-            processData: false,
-            method: "POST",
-            success: function (data) {
-                console.log('success', data);
-            },
-            error: function (data) {
-                console.log('error', data);
+        function pre_registro(o) {            
+            o.disabled = true;
+            if (test_formulario()===true) {
+                registra();
             }
-        }).done( function (resultado) {
-            console.log(resultado);
-            if (resultado.ok === true) {
-                todo_ok();
-            }
-            else {
-                muestra_mensaje_error(resultado.msg);
-            }
-        });
+            o.disabled = false;
+            
+            return false;
         }
     </script>
 </body>
