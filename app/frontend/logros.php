@@ -32,6 +32,10 @@
                 ver_logros_autonomia();
             }
         }
+
+        function atras() {
+            document.getElementById("frm_inicio").submit();
+        }
     </script>
 </head>
 <body>
@@ -41,7 +45,16 @@
             <td style="min-width:600px;">
                 <table style="width:100%;border:2px solid black;" rules="none" cellpadding="10px">
                     <tr>
-                        <td class="titulo_logros" colspan="2">Logros del usuario <?php echo $usuario; ?> V.1.1</td>                        
+                        <td colspan="2">
+                            <table style="width:100%;background-color:palegoldenrod;">
+                                <tr>
+                                    <td class="titulo_logros" style="width:100%;" >Logros del usuario <?php echo $usuario; ?> V.1.1</td>
+                                    <td class="titulo_logros" style="min-width:100px;" >
+                                        <button style="background-color:pink;" onclick="atras();">SALIR</button>
+                                    </td>
+                                </tr>    
+                            </table>    
+                        </td>                           
                     </tr>
                     <tr>
                         <td class="titulo_campo" style="min-width:280px;">Poblaciones visitadas</td>
@@ -89,6 +102,8 @@
             </td>
             <td style="width:50%;"></td>
         </tr>
+
+        <form id="frm_inicio" name="frm_inicio" action="../index.php" method="post" style="display:none;"></form>
     </table>
     
     <script>

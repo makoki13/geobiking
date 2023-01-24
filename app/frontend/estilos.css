@@ -56,9 +56,9 @@ input[type="submit"]:hover {
     padding-right: 5px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 24px;
-    color: #45a049;
+    color: green;
     font-weight: bolder;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 1px 1px 1px greenyellow;
 }
 
 .titulo_campo {
