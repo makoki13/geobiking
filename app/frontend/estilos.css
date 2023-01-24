@@ -46,9 +46,19 @@ input[type="submit"]:hover {
 }
 
 .centrado {
-    width: 800px;
+    width: 100%;
     margin: auto;
     background-color: #EEEEEE;
+}
+
+.titulo_logros {
+    text-align: center;
+    padding-right: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24px;
+    color: #45a049;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px black;
 }
 
 .titulo_campo {
@@ -124,6 +134,7 @@ input[type="submit"]:hover {
 button {
     width: 100%;
     background-color: beige;
+    cursor: pointer;
 }
 
 button.seleccionado {
@@ -311,4 +322,82 @@ button {
     text-shadow: 1px 1px 1px gainsboro;
     vertical-align: top;
     height: 100%;
+}
+
+.principal_titulo {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding: 5px;
+    color: rgb(72, 10, 187);
+    text-shadow: 1px 1px 1px gainsboro;
+    font-weight: bolder;
+    vertical-align: bottom;
+}
+
+.principal_leyenda_1 {
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    color: rgb(72, 10, 187);
+    text-shadow: 1px 1px 1px gainsboro;
+    font-style: italic;
+    vertical-align: bottom;
+}
+
+.principal_seccion {
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+    vertical-align: bottom;
+    font-weight: bolder;
+}
+
+.principal_campo {
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: right;
+    padding-right: 5px;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+    vertical-align: middle;
+    font-weight: bolder;
+}
+
+.principal_celda_entrar {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.principal_celda_registrar {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.boton_pie {
+    width: 200px;
+}
+
+.inicio_boton_pie {
+    width: 600px;
+}
+
+.principal_entrar {
+    width: 200px;
+}
+
+.btn_logros {
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    text-shadow: 1px 1px 1px gainsboro;
+    width: 100%;
 }

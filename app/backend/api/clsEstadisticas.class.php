@@ -451,7 +451,7 @@ class Estadisticas {
             $logro->logo = "img_2";                
             $logro->comando = "autonomia_10_por_cien_visitado";
             $logro->puntos = 500;
-            $resultado = Estadisticas::autonomia_10_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
+            $resultado = Estadisticas::objetivo_autonomia_10_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
             $logro->conseguido = false;
             if ($resultado === true) {                
                 $logro->conseguido = true;
@@ -465,7 +465,7 @@ class Estadisticas {
             $logro->logo = "img_3";                
             $logro->comando = "autonomia_25_por_cien_visitado";
             $logro->puntos = 1000;
-            $resultado = Estadisticas::autonomia_25_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
+            $resultado = Estadisticas::objetivo_autonomia_25_por_cien_visitado( $conexion, $usuario, $o->id_autonomia);
             $logro->conseguido = false;
             if ($resultado === true) {                
                 $logro->conseguido = true;

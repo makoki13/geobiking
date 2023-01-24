@@ -12,6 +12,7 @@
     <link href="estilos.css" rel="stylesheet" type="text/css">
 
     <script>
+        var url_server = 'http://127.0.0.1:8080/backend/api/server.php';
         var boton_anterior = null;
         function selecciona(o) {
             if (o == boton_anterior) {                
@@ -34,50 +35,62 @@
     </script>
 </head>
 <body>
-    <h1 style='text-align:center;'>logros de usuario <?php echo $usuario; ?> V.1.1</h1>
-    <div class="contenedor">
-        <div class="centrado">
-            <table style="width:100%;border:2px solid black;" rules="none" cellpadding="10px">
-                <tr>
-                    <td class="titulo_campo" style="min-width:280px;">Poblaciones visitadas</td>
-                    <td class="dato_campo" style="width:100%;" id="poblaciones_visitadas"></td>
-                </tr>
-                <tr>
-                    <td class="titulo_campo">Provincias visitadas</td>
-                    <td class="dato_campo" id="provincias_visitadas"></td>
-                </tr>
-                <tr>
-                    <td class="titulo_campo">Comunidades autónomas visitadas</td>
-                    <td class="dato_campo" id="autonomias_visitadas"></td>
-                </tr>
-                <tr>
-                    <td colspan=2 class="titulo_total_puntos" id="total_puntos"></td>                    
-                </tr>
+    <table style="width:100%;height:100%;">
+        <tr>
+            <td style="width:50%;"></td>
+            <td style="min-width:600px;">
+                <table style="width:100%;border:2px solid black;" rules="none" cellpadding="10px">
+                    <tr>
+                        <td class="titulo_logros" colspan="2">Logros del usuario <?php echo $usuario; ?> V.1.1</td>                        
+                    </tr>
+                    <tr>
+                        <td class="titulo_campo" style="min-width:280px;">Poblaciones visitadas</td>
+                        <td class="dato_campo" style="width:100%;" id="poblaciones_visitadas"></td>
+                    </tr>
+                    <tr>
+                        <td class="titulo_campo">Provincias visitadas</td>
+                        <td class="dato_campo" id="provincias_visitadas"></td>
+                    </tr>
+                    <tr>
+                        <td class="titulo_campo">Comunidades autónomas visitadas</td>
+                        <td class="dato_campo" id="autonomias_visitadas"></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2 class="titulo_total_puntos" id="total_puntos"></td>                    
+                    </tr>
 
-                <tr>
-                    <td colspan=2>
-                        <table id="tabla_menu" style="width:100%;visibility:hidden;">
-                            <tr>
-                                <td style="width:50%">&nbsp;</td>
-                                <td style="min-width:230px"><button id="btn_general"   onclick="selecciona(this);">GENERAL</button></td>
-                                <td style="min-width:230px"><button id="btn_provincia" onclick="selecciona(this);">POR PROVINCIA</button></td>
-                                <td style="min-width:230px"><button id="btn_autonoma"  onclick="selecciona(this);">POR COMUNIDAD AUTÓNOMA</button></td>
-                                <td style="width:50%">&nbsp;</td>
-                            </tr>
-                        </table>
-                    </td>    
-                </tr>
+                    <tr>
+                        <td colspan=2>
+                            <table id="tabla_menu" style="width:100%;visibility:hidden;">
+                                <tr>
+                                    <td style="width:50%">&nbsp;</td>
+                                    <td style="min-width:260px">
+                                        <button id="btn_general" class="btn_logros" onclick="selecciona(this);">GENERAL</button>
+                                    </td>
+                                    <td style="min-width:260px">
+                                        <button id="btn_provincia" class="btn_logros" onclick="selecciona(this);">POR PROVINCIA</button>
+                                    </td>
+                                    <td style="min-width:360px">
+                                        <button id="btn_autonoma" class="btn_logros" onclick="selecciona(this);">POR COMUNIDAD AUTÓNOMA</button>
+                                    </td>
+                                    <td style="width:50%">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>    
+                    </tr>
 
-                <tr>
-                    <td colspan=2>
-                        <table id="tbl_logros">
-                        </table>    
-                    </td>    
-                </tr>
-            </table>
-        </div>
-    </div>
-
+                    <tr>
+                        <td colspan=2>
+                            <table id="tbl_logros">
+                            </table>    
+                        </td>    
+                    </tr>
+                </table>
+            </td>
+            <td style="width:50%;"></td>
+        </tr>
+    </table>
+    
     <script>
         function inicializa() {
             //boton_anterior = document.getElementById("btn_general");
@@ -125,7 +138,7 @@
 
             var logo_elemento = '';            
             if ((elemento.logo != null) && (elemento.conseguido == true))  {
-                logo_elemento = 'src="./imagenes/' + elemento.logo + '.png"';
+                logo_elemento = 'src="../backend/imagenes/' + elemento.logo + '.png"';
             }
 
             col.innerHTML = '<img class="'  + clase_img + '" ' + logo_elemento + '>';                        
@@ -338,7 +351,7 @@
             }
 
             $.ajax ({
-                url: 'http://127.0.0.1:8080/api/server.php',
+                url: url_server,
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(datos_ajax),
                 dataType: "json",
@@ -377,7 +390,7 @@
             }
 
             $.ajax ({
-                url: 'http://127.0.0.1:8080/api/server.php',
+                url: url_server,
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(datos_ajax),
                 dataType: "json",
@@ -411,7 +424,7 @@
             }
 
             $.ajax ({
-                url: 'http://127.0.0.1:8080/api/server.php',
+                url: url_server,
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(datos_ajax),
                 dataType: "json",
@@ -435,13 +448,15 @@
         }
 
         function ver_logros_autonomia() {
+            console.log('ver_logros_autonomia');
+
             datos_ajax = {
                 funcion: 'get_logros_autonomia',
                 usuario: usuario,
             }
 
             $.ajax ({
-                url: 'http://127.0.0.1:8080/api/server.php',
+                url: url_server,
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(datos_ajax),
                 dataType: "json",

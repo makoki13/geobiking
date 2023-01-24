@@ -195,4 +195,15 @@ class Usuario {
 
         return true;
     }
+
+    public static function esta_registrado($conexion,$usuario,$clave) {
+        $sql="select count(*) from usuarios where upper(trim(nombre))=$$" . strtoupper($usuario) . "$$ and clave=$$" . trim($clave) . "$$";
+        $filas = db_get_dato($conexion,$sql);
+        return ($filas > 0);
+    }
+
+    public static function get_id_por_usuario_y_clave($conexion,$usuario,$clave) {
+        $sql="select id from usuarios where upper(trim(nombre))=$$" . strtoupper($usuario) . "$$ and clave=$$" . trim($clave) . "$$";
+        return db_get_dato($conexion,$sql);
+    }
 }

@@ -152,5 +152,28 @@ if ($funcion=="registra") {
     die(json_encode($o));
 }
 
+if ($funcion == "check_registro") {
+    include_once 'clsUsuario.class.php';
+
+    $conexion = BaseDeDatos::get_nueva_conexion();
+
+    $o = new stdClass();
+        
+    $clave = $datos->clave;
+    
+    if (Usuario::esta_registrado($conexion,$usuario,$clave) == false) {
+        $o->ok = false;
+        $o->msg = 'El usuario no existe o la contraseña no es válida';    
+        die(json_encode($o));
+    }    
+
+    $o->id_usuario = Usuario::get_id_por_usuario_y_clave($conexion,$usuario,$clave);
+
+    $o->ok = true;
+    $o->msg = '';
+
+    die(json_encode($o));
+}
+
 
 

@@ -169,6 +169,10 @@
 
             return true;
         }
+
+        function cancelar() {            
+            document.getElementById("frm_inicio").submit();
+        }
     </script>
 </head>
     <body onload = "javascript:document.getElementById('username').focus();">
@@ -257,9 +261,16 @@
 
                                 <tr>
                                     <td colspan="2" style="text-align:center;">
-                                        <button onclick="pre_registro(this);">Registrarme</button>
+                                        <button class="boton_pie" onclick="pre_registro(this);">Registrarme</button>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td colspan="2" style="text-align:center;padding-top:20px;">
+                                        <button class="boton_pie" style="background-color:pink;" onclick="cancelar(this);">ATRAS</button>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td colspan="2" style="height:15px;"></td>
                                 </tr>
@@ -271,6 +282,8 @@
             </div>
         </div>
     </nav>    
+
+    <form id="frm_inicio" name="frm_inicio" action="../index.php" method="post" style="display:none;"></form>
 
     <script>
         function registra() {
