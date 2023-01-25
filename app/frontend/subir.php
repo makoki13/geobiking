@@ -107,19 +107,19 @@ if ($funcion=="sube_archivo") {
 
                     <tr>
                         <td>
-                            <table style="background-color:palegoldenrod;height:100%;width:100%;">
+                            <table style="background-color:palegoldenrod;height:100%;width:100%;border:1px solid black;">
                                 <tr>
                                     <td>
-                                        <form enctype="multipart/form-data" action="subir.php" method="POST"> 
-			                                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" /> 
-                                            <input type="hidden" name="funcion" value="sube_archivo" /> 
-                                            <input type="hidden" name="usuario" value="<?php echo $usuario; ?>" /> 
-                                            <input type="hidden" name="nombre_usuario" value="" /> 
-				                            <h5  class="texto_archivo"><i></i> Seleccione el archivo a subir: </h5> 
-				                            <hr/>
+                                        <form enctype="multipart/form-data" action="subir.php" method="POST">
+			                                <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+                                            <input type="hidden" name="funcion" value="sube_archivo" />
+                                            <input type="hidden" name="usuario" value="<?php echo $usuario; ?>" />
+                                            <input type="hidden" name="nombre_usuario" value="" />
+				                            <h5  class="texto_archivo"><i></i> Seleccione el archivo a subir: </h5>
 				                            <input class="boton_fichero" name="fichero_usuario" type="file" />
-                                            <hr/>
-				                            <button class="submit" type="submit">Subir Archivo</button> 
+                                            <br>
+                                            <br>
+				                            <button class="submit" type="submit">Subir Archivo</button>
 			                            </form> 
                                     </td>    
                                 </tr>                                
@@ -129,7 +129,7 @@ if ($funcion=="sube_archivo") {
                     
                     <tr>
                         <td>
-                            <table style="background-color:pink;height:100%;width:100%;">
+                            <table style="height:100%;width:100%;">
                                 <tr>
                                     <td class="anyo" style="width:100%;text-align:center;">
                                         <?php echo date("d-m-Y"); ?>

@@ -140,7 +140,7 @@
             <input type="hidden" id="registro_logros" name="logros_usuario" value="0">
         </form>        
         <form id="frm_subir" name="frm_subir" action="frontend/subir.php" method="post" style="display:none;">
-            <input type="hidden" id="registro_subir" name="subir_usuario" value="0">
+            <input type="hidden" id="registro_subir" name="usuario" value="0">
         </form>
         <script>
 

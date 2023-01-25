@@ -2,7 +2,7 @@ form {
     width: 500px;
     margin: 0 auto;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     border-radius: 5px;
     padding: 20px;
 }
@@ -296,9 +296,10 @@ button {
     font-size: 24px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
-    padding-right: 5px;
+    padding: 15px;
     color: black;
     text-shadow: 1px 1px 1px gainsboro;
+    border: 1px solid rebeccapurple;
 }
 
 .etiqueta_registro {
