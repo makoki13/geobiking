@@ -5,7 +5,10 @@ if (trim($usuario) == '') {
     $usuario = 0;
 }
 
-$funcion = $_POST['funcion'];
+$funcion = '';
+if (isset($_POST['funcion'])) {
+    $funcion = $_POST['funcion'];
+}
 
 if ($funcion=="sube_archivo") {    
     if (trim(basename($_FILES['fichero_usuario']['name'])=='')) {
