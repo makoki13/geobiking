@@ -34,7 +34,7 @@
         }
 
         function atras() {
-            document.getElementById("frm_inicio").submit();
+            document.getElementById("frm_subir").submit();
         }
     </script>
 </head>
@@ -48,9 +48,9 @@
                         <td colspan="2">
                             <table style="width:100%;background-color:palegoldenrod;">
                                 <tr>
-                                    <td class="titulo_logros" style="width:100%;" >Logros del usuario <?php echo $usuario; ?> V.1.1</td>
+                                    <td id="titulo_logros" class="titulo_logros" style="width:100%;" ></td>
                                     <td class="titulo_logros" style="min-width:100px;" >
-                                        <button style="background-color:pink;" onclick="atras();">SALIR</button>
+                                        <button style="background-color:pink;" onclick="atras();">ATRAS</button>
                                     </td>
                                 </tr>    
                             </table>    
@@ -103,7 +103,7 @@
             <td style="width:50%;"></td>
         </tr>
 
-        <form id="frm_inicio" name="frm_inicio" action="../index.php" method="post" style="display:none;"></form>
+        <form id="frm_subir" name="frm_subir" action="./subir.php" method="post" style="display:none;"></form>
     </table>
     
     <script>
@@ -249,12 +249,6 @@
 
                 fila_item_provincia.appendChild(celda_item_provincia);
                 tabla_item_provincia.appendChild(fila_item_provincia);
-
-
-
-
-
-
 
                 var fila_item_logros = document.createElement('tr');
                 fila_item_logros.style.display="none";
@@ -425,6 +419,8 @@
                         resultado.autonomias_visitadas, resultado.autonomias, resultado.porcentaje_autonomias,
                         resultado.total_puntos
                     );
+
+                    document.getElementById('titulo_logros').innerHTML = "Logros del usuario " + resultado.nombre_usuario;
 
                     //ver_logros_general();
                     document.getElementById("tabla_menu").style.visibility = 'visible';

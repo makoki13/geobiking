@@ -43,6 +43,7 @@ if ($funcion == "get_logros_globales") {
     $conexion = connect();
 
     include_once 'clsEstadisticas.class.php';
+    include_once 'clsUsuario.class.php';
     
     $o->poblaciones = Estadisticas::get_total_numero_localidades($conexion);    
     $o->poblaciones_visitadas = Estadisticas::get_localidades_visitadas($conexion, $usuario);
@@ -58,6 +59,9 @@ if ($funcion == "get_logros_globales") {
 
     $datos_logros = Estadisticas::get_global($conexion,$usuario);
     $o->total_puntos = $datos_logros['total_puntos'];
+
+    $datos_usuario = Usuario::get_datos($conexion,$usuario);
+    $o->nombre_usuario = $datos_usuario->nombre;
         
     $o->ok = true;
     $o->msg = "mensaje";

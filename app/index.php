@@ -44,7 +44,8 @@
             }).done( function (resultado) {
                 console.log(resultado);
                 if (resultado.ok === true) {
-                    entra_logros(resultado.id_usuario);
+                    //entra_logros(resultado.id_usuario);
+                    entra_subir(resultado.id_usuario);
                 }
                 else {
                     muestra_mensaje_error(resultado.msg);
@@ -62,6 +63,11 @@
             function entra_logros(id_usuario) {
                 document.getElementById("registro_logros").value = id_usuario;
                 document.getElementById("frm_logros").submit();
+            }
+
+            function entra_subir(id_usuario) {
+                document.getElementById("registro_subir").value = id_usuario;
+                document.getElementById("frm_subir").submit();
             }
 
             function muestra_mensaje_error(mensaje) {
@@ -133,7 +139,9 @@
         <form id="frm_logros" name="frm_logros" action="frontend/logros.php" method="post" style="display:none;">
             <input type="hidden" id="registro_logros" name="logros_usuario" value="0">
         </form>        
-
+        <form id="frm_subir" name="frm_subir" action="frontend/subir.php" method="post" style="display:none;">
+            <input type="hidden" id="registro_subir" name="subir_usuario" value="0">
+        </form>
         <script>
 
         </script>    
