@@ -64,8 +64,6 @@ class BaseDeDatos {
         return pg_result($reg,$indice,$campo);
     }
 
-
-
     public static function db_get_tabla($sql,&$filas) {
         $reg = @pg_query(self::$conexion,$sql);    
         if ($reg === false) return false;
