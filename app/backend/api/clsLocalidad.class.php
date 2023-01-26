@@ -65,6 +65,24 @@ class Localidad {
             
         return array("id" => $place_id, "poblacion" => $poblacion, "provincia" => $provincia);
     }
+
+    public static function osm_get_por_nombre($nombre) {
+        $json = "https://nominatim.openstreetmap.org/search?format=jsonv2&country=spain&city=" . urlencode(trim($nombre));
+        //echo $json . "\n";
+        $opts = [
+            'http' => [
+              'method'=>"GET",
+              'header'=>"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) \r\n"
+            ]
+        ];
+        $context = stream_context_create($opts);
+        $jsonfile = file_get_contents($json, false, $context);
+            
+        $RG_array = json_decode($jsonfile,true);
+        if (!$RG_array) return false;
+        
+        return (object) array("lat" => $RG_array[0]['lat'], "lon" => $RG_array[0]['lon']) ;
+    }
     
     public static function existe($conexion,$id) {
         $sql="select count(*) from localidades where id=$id";    
