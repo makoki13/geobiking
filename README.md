@@ -1,4 +1,7 @@
 # geobiking
+
+Registro de los municipios españoles que se ha visitado, con listado de logros y puntos.
+
 Versión 0.0.1 - 25.01.2023
   - Pendientes para 0.0.2
     * Añadir municipios que faltan
