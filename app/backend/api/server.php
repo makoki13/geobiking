@@ -179,5 +179,38 @@ if ($funcion == "check_registro") {
     die(json_encode($o));
 }
 
+if ($funcion=="carga_municipios") {    
+    include_once 'clsLocalidad.class.php';
+    include_once 'utilidades.php';
+    
+    $conexion = BaseDeDatos::get_nueva_conexion();
+    
+    $o = new stdClass();
+    
+    $provincia = $datos->provincia;
+    
+    $nombre_provincia = Localidad::nombre_provincia($conexion,$provincia);
+    $tabla = Localidad::get_lista_municipios_por_provincia_para_usuario($conexion,$usuario,$provincia);
+    $html = '';
+    if (count($tabla) > 0) foreach($tabla as $i => $reg) {
+        if ($i % 5 == 0) {
+            if ($i > 0) {
+                $html.='</tr>';
+            }
+            $html.='<tr>';
+        }
+        
+        $estilo=' style="color:gray;" '; if ($reg->visitado==true) {
+            $estilo = ' style="color:black;font-weight:bolder;" ';
+        }
+        $html.='<td class="celda_localidad" '.$estilo.'>' . $reg->nombre . "</td>";        
+    }
 
+    $o->ok = true;
+    $o->msg = '';
+    $o->datos = $html;
+    $o->nombre_provincia = strtoupper($nombre_provincia);
+
+    die(json_encode($o));
+}
 

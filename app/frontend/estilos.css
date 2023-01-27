@@ -402,3 +402,15 @@ button {
     text-shadow: 1px 1px 1px gainsboro;
     width: 100%;
 }
+
+.imagen_boton_localidades {
+    width: 25px;
+    height: 100%;
+}
+
+.celda_localidad {
+    text-shadow: 1px 1px 1px gainsboro;
+    height: 30px;
+    width: 20%;
+    text-align: center;
+}

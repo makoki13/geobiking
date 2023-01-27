@@ -28,31 +28,31 @@
                     clave: clave,
                 }
 
-            $.ajax ({
-                url: 'http://127.0.0.1:8080/backend/api/server.php',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(datos_ajax),
-                dataType: "json",
-                processData: false,
-                method: "POST",
-                success: function (data) {
-                    console.log('success', data);
-                },
-                error: function (data) {
-                    console.log('error', data);
-                }
-            }).done( function (resultado) {
-                console.log(resultado);
-                if (resultado.ok === true) {
-                    //entra_logros(resultado.id_usuario);
-                    entra_subir(resultado.id_usuario);
-                }
-                else {
-                    muestra_mensaje_error(resultado.msg);
-                    document.getElementById('usuario').focus();
-                    document.getElementById('usuario').select();                    
-                }
-            });
+                $.ajax ({
+                    url: 'http://127.0.0.1:8080/backend/api/server.php',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(datos_ajax),
+                    dataType: "json",
+                    processData: false,
+                    method: "POST",
+                    success: function (data) {
+                        console.log('success', data);
+                    },
+                    error: function (data) {
+                        console.log('error', data);
+                    }
+                }).done( function (resultado) {
+                    console.log(resultado);
+                    if (resultado.ok === true) {
+                        //entra_logros(resultado.id_usuario);
+                        entra_subir(resultado.id_usuario);
+                    }
+                    else {
+                        muestra_mensaje_error(resultado.msg);
+                        document.getElementById('usuario').focus();
+                        document.getElementById('usuario').select();                    
+                    }
+                });
             }
 
             function registrarse() {

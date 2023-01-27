@@ -1,6 +1,7 @@
 <?php
 
 //https://www.ine.es/daco/daco42/codmun/codmunmapa.htm
+//https://docs.google.com/spreadsheets/d/1-pBg1SJX6-gJ6CAmM3viffBEUAS4cai8O8UMxUNWl8U/edit#gid=0
 
 include_once './app/backend/api/clsBaseDeDatos.class.php';
 include_once './app/backend/api/utilidades.php';
@@ -27,7 +28,7 @@ function lista_poblaciones() {
     }
 }
 
-function vuelva_fichero_csv_a_poblaciones() {
+function vuelca_fichero_csv_a_poblaciones() {
     $conexion = BaseDeDatos::get_nueva_conexion();
 
     $fp = fopen('./kks/poblaciones.csv','r') or die("can't open file");    
@@ -87,6 +88,6 @@ function procesa_poblacion_temporal() {
     }
 }
 
-//vuelva_fichero_csv_a_poblaciones();
-
+//lista_poblaciones();
+vuelca_fichero_csv_a_poblaciones();
 procesa_poblacion_temporal();

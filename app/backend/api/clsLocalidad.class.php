@@ -117,5 +117,28 @@ class Localidad {
         return $valor;
     }
     
-    
+    public static function nombre_provincia($conexion,$id) {
+        $sql="select nombre from provincias where id=$id";
+        $valor = db_get_dato($conexion,$sql);
+        return trim($valor);
+    }
+
+    public static function get_lista_municipios_por_provincia_para_usuario($conexion,$usuario,$provincia) {
+        $sql="
+            select id,nombre,(select count(*) from usuarios_registro where usuario=$usuario and localidad=p.id) as visitas 
+            from localidades p 
+            where provincia=$provincia 
+            order by nombre
+        ";
+        $reg = db_get_tabla($conexion,$sql,$filas);
+        $lista = array();        
+        for ($i = 0; $i < $filas; $i++) {
+            $lista[$i] = new stdClass();
+            $lista[$i]->id = pg_result($reg,$i,'id');
+            $lista[$i]->nombre = pg_result($reg,$i,'nombre');
+            $lista[$i]->visitado = (pg_result($reg,$i,'visitas') > 0);
+        }
+
+        return $lista;       
+    }
 }

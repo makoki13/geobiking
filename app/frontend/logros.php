@@ -36,6 +36,12 @@
         function atras() {
             document.getElementById("frm_subir").submit();
         }
+
+        function ver_localidades(provincia) {                        
+            document.getElementById("usuario").value = "<?php echo $usuario; ?>";
+            document.getElementById("provincia").value = provincia;
+            document.getElementById("frm_municipios").submit();
+        }
     </script>
 </head>
 <body>
@@ -104,6 +110,11 @@
         </tr>
 
         <form id="frm_subir" name="frm_subir" action="./subir.php" method="post" style="display:none;"></form>
+
+        <form id="frm_municipios" name="frm_municipios" action="./municipios.php" method="post" style="display:none;">
+            <input type="hidden" id="usuario" name="usuario" value="0">
+            <input type="hidden" id="provincia" name="provincia" value="0">
+        </form>        
     </table>
     
     <script>
@@ -246,8 +257,14 @@
                 else {
                     celda_item_provincia.innerHTML = "&nbsp;" ;
                 }
-
                 fila_item_provincia.appendChild(celda_item_provincia);
+
+                var celda_item_provincia= document.createElement('td');
+                celda_item_provincia.className="celda_datos_provincia";   
+                celda_item_provincia.innerHTML = "<button onclick='ver_localidades(" + item.id_provincia + ");'>" + 
+                    "<img class='imagen_boton_localidades' src='../backend/imagenes/img_1.png'></button>" ;
+                fila_item_provincia.appendChild(celda_item_provincia);
+
                 tabla_item_provincia.appendChild(fila_item_provincia);
 
                 var fila_item_logros = document.createElement('tr');
