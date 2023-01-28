@@ -125,6 +125,12 @@ class Localidad {
 
     public static function get_lista_municipios_por_provincia_para_usuario($conexion,$usuario,$provincia) {
         $sql="
+            select distinct on (nombre) id,nombre,(select count(*) from usuarios_registro where usuario=$usuario and localidad=p.id) as visitas 
+            from localidades p 
+            where provincia=$provincia 
+            order by nombre
+        ";
+        $sqlx="
             select id,nombre,(select count(*) from usuarios_registro where usuario=$usuario and localidad=p.id) as visitas 
             from localidades p 
             where provincia=$provincia 

@@ -200,10 +200,11 @@ if ($funcion=="carga_municipios") {
             $html.='<tr>';
         }
         
-        $estilo=' style="color:gray;" '; if ($reg->visitado==true) {
+        $estilo=' style="color:gray;" '; $cls_visitados = ''; $cls_pendientes='pendientes'; if ($reg->visitado==true) {
+            $cls_visitados = 'visitados'; $cls_pendientes='';
             $estilo = ' style="color:black;font-weight:bolder;" ';
         }
-        $html.='<td class="celda_localidad" '.$estilo.'>' . $reg->nombre . "</td>";        
+        $html.='<td class="celda_localidad todos '.$cls_visitados.' '.$cls_pendientes.'" '.$estilo.'>' . $reg->nombre . "</td>";        
     }
 
     $o->ok = true;

@@ -33,7 +33,7 @@
             }
         }
 
-        function atras() {
+        function atras() {            
             document.getElementById("frm_subir").submit();
         }
 
@@ -41,6 +41,8 @@
             document.getElementById("usuario").value = "<?php echo $usuario; ?>";
             document.getElementById("provincia").value = provincia;
             document.getElementById("frm_municipios").submit();
+            event.stopPropagation();
+            event.preventDefault();
         }
     </script>
 </head>
@@ -54,7 +56,7 @@
                         <td colspan="2">
                             <table style="width:100%;background-color:palegoldenrod;">
                                 <tr>
-                                    <td id="titulo_logros" class="titulo_logros" style="width:100%;" ></td>
+                                    <td id="titulo_logros" class="principal_titulo" style="width:100%;" ></td>
                                     <td class="titulo_logros" style="min-width:100px;" >
                                         <button style="background-color:pink;" onclick="atras();">ATRAS</button>
                                     </td>
@@ -261,8 +263,8 @@
 
                 var celda_item_provincia= document.createElement('td');
                 celda_item_provincia.className="celda_datos_provincia";   
-                celda_item_provincia.innerHTML = "<button onclick='ver_localidades(" + item.id_provincia + ");'>" + 
-                    "<img class='imagen_boton_localidades' src='../backend/imagenes/img_1.png'></button>" ;
+                celda_item_provincia.innerHTML = "<button style='background-color:white;' onclick='ver_localidades(" + item.id_provincia + ");'>" + 
+                    "<img class='imagen_boton_localidades' src='../backend/imagenes/city.jpg'></button>" ;
                 fila_item_provincia.appendChild(celda_item_provincia);
 
                 tabla_item_provincia.appendChild(fila_item_provincia);

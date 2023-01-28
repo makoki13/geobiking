@@ -20,7 +20,7 @@ if (trim($provincia) == '') {
         <script>
             var usuario = '<?php echo $usuario; ?>';
             var provincia = '<?php echo $provincia; ?>';
-
+            
             function muestra_mensaje_error(mensaje) {
                 alert(mensaje);
             }
@@ -28,7 +28,37 @@ if (trim($provincia) == '') {
             function atras() {
                 document.getElementById("registro_logros").value = usuario;
                 document.getElementById("frm_logros").submit();
-        }
+            }
+
+            function xchg_boton(o) {                
+                boton_pulsado.style.backgroundColor = 'white';
+                o.style.backgroundColor = 'pink';
+                boton_pulsado = o;                
+            }
+
+            function todos(o) {
+                if (boton_pulsado != o) {
+                    xchg_boton(o);                    
+                    $(".todos").show()
+                }
+                
+            }
+
+            function visitados(o) {
+                $(".todos").hide()
+                if (boton_pulsado != o) {
+                    xchg_boton(o);
+                    $(".visitados").show()
+                }                
+            }
+
+            function pendientes(o) {
+                $(".todos").hide()
+                if (boton_pulsado != o) {
+                    xchg_boton(o);
+                    $(".pendientes").show()
+                }
+            }
         </script>    
     </head>
 
@@ -38,14 +68,41 @@ if (trim($provincia) == '') {
                 <td style="width:50%;"></td>
                 <td style="min-width:1200px;">
                     <table style="width:100%;border:0px solid darkred;" rules="all">
-                        <tr>
-                            <td class="principal_titulo" id="titulo"></td>
-                            <td class="titulo_logros" style="min-width:100px;" >
-                                <button style="background-color:pink;" onclick="atras();">ATRAS</button>
+                        <tr style="background-color:palegreen;">
+                            <td>
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td class="principal_titulo" id="titulo"></td>
+                                        <td class="titulo_logros" style="min-width:100px;" >
+                                            <button style="background-color:pink;" onclick="atras();">ATRAS</button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
+                            
+                        </tr>
+                        <tr style="background-color:palegreen;">
+                            <td>
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td style="width:50%;"></td>
+                                        <td class="titulo_logros" style="min-width:200px;" >
+                                            <button id="btn_todos" style="background-color:pink;width:100%;" onclick="todos(this);">TODOS</button>
+                                        </td>
+                                        <td class="titulo_logros" style="min-width:200px;" >
+                                            <button id="btn_visitados" style="background-color:white;width:100%;" onclick="visitados(this);">VISITADOS</button>
+                                        </td>
+                                        <td class="titulo_logros" style="min-width:200px;" >
+                                            <button id="btn_pendientes" style="background-color:white;width:100%;" onclick="pendientes(this);">PENDIENTES</button>
+                                        </td>
+                                        <td style="width:50%;"></td>
+                                    </tr>
+                                </table>
+                            </td>    
+                            
                         </tr>
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 <table id="tabla" rules="all">
                                 </table>    
                             </td>
@@ -94,6 +151,7 @@ if (trim($provincia) == '') {
                 });
             }
 
+            var boton_pulsado = document.getElementById('btn_todos');
             carga_datos();
         </script>    
     </body>
