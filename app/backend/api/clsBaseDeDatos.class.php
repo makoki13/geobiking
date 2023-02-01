@@ -8,7 +8,8 @@ class BaseDeDatos {
             return  self::$conexion;
         }
 
-        $cadena_conexion = "host=rtexa3j8.instances.spawn.cc port=32068 dbname=foobardb user=spawn_admin_cBuT password=J0XccA3aXpL8T9qz connect_timeout=5";
+        //$cadena_conexion = "host=rtexa3j8.instances.spawn.cc port=32068 dbname=foobardb user=spawn_admin_cBuT password=J0XccA3aXpL8T9qz connect_timeout=5";
+        $cadena_conexion = "host=localhost port=6666 dbname=geobiking user=postgres password=vimvsp connect_timeout=5";
         self::$conexion = pg_connect($cadena_conexion, PGSQL_CONNECT_FORCE_NEW);
         return self::$conexion;
     }
