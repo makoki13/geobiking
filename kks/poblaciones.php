@@ -18,13 +18,13 @@ function lista_poblaciones() {
         $poblaciones = pg_result($lista,$i,2);
 
         $sql="select count(*) from localidades where provincia=$id";
-        $poblaciones_visitadas = BaseDeDatos::db_get_dato($sql);
+        $poblaciones_recogidas = BaseDeDatos::db_get_dato($sql);
 
         $veredicto = 'OK';
-        if ($poblaciones > $poblaciones_visitadas) {
-            $veredicto = 'Faltan ' . ($poblaciones - $poblaciones_visitadas) . " poblaciones";
+        if ($poblaciones > $poblaciones_recogidas) {
+            $veredicto = 'Faltan ' . ($poblaciones - $poblaciones_recogidas) . " poblaciones";
         }
-        echo "provincia: $nombre - poblaciones $poblaciones - $poblaciones_visitadas => $veredicto\n";
+        echo "provincia: $nombre - poblaciones $poblaciones - $poblaciones_recogidas => $veredicto\n";
     }
 }
 
@@ -88,6 +88,6 @@ function procesa_poblacion_temporal() {
     }
 }
 
-//lista_poblaciones();
 vuelca_fichero_csv_a_poblaciones();
 procesa_poblacion_temporal();
+lista_poblaciones();
